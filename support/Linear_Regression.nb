@@ -638,7 +638,7 @@ So the lm[\[OpenCurlyDoubleQuote]FitResiduals\[CloseCurlyDoubleQuote]] does \
 the same thing as our function above that found the residuals.\
 \>", "Text",
  CellChangeTimes->{{3.684158340631909*^9, 3.6841583998164587`*^9}}]
-}, Open  ]],
+}, Closed]],
 
 Cell[CellGroupData[{
 
@@ -1367,9 +1367,9 @@ Cell[25435, 578, 267, 5, 28, "Input"],
 Cell[25705, 585, 3337, 47, 216, "Output"]
 }, Open  ]],
 Cell[29057, 635, 232, 4, 30, "Text"]
-}, Open  ]],
+}, Closed]],
 Cell[CellGroupData[{
-Cell[29326, 644, 98, 1, 64, "Section"],
+Cell[29326, 644, 98, 1, 50, "Section"],
 Cell[CellGroupData[{
 Cell[29449, 649, 140, 2, 28, "Input"],
 Cell[29592, 653, 6962, 129, 235, "Output"]

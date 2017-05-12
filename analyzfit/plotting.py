@@ -10,7 +10,8 @@ def scatter_with_hover(x, y, in_notebook=True, show_plt=True,
                        y_label=None, title=None, **kwargs):
     """
     Plots an interactive scatter plot of `x` vs `y` using bokeh, with automatic
-    tooltips showing columns from `df`.
+    tooltips showing columns from `df`. Modified from: 
+    http://blog.rtwilson.com/bokeh-plots-with-dataframe-based-tooltips/
     Parameters
     ----------
     x : str
@@ -89,9 +90,12 @@ def scatter(x,y,show_plt=True, x_label=None, y_label=None, title=None, **kwargs)
 
     fig, ax = plt.figure()
     fig.scatter(x,y)
-    plt.xlabel(x_label)
-    plt.ylabel(y_label)
-    plt.title(title)
+    if x_label != None:
+        plt.xlabel(x_label)
+    if y_label != None:
+        plt.ylabel(y_label)
+    if title != None:
+        plt.title(title)
     if show is True:
         plt.show()
     else:

@@ -47,6 +47,7 @@ class analysis(object):
             y (optional, numpy array): The target values to make the plot for
                 if different than the dataset used to initialize the method.
             interact (optional, bool): True if the plot is to be interactive.
+            show (option, bool): True if plot is to be displayed.
         """
         if X !=None and y!=None:
             pred = self.model.predict(X)
@@ -70,11 +71,59 @@ class analysis(object):
                                    x_label="Predictions",y_label="Residues")
             else:
                 return scatter_with_hover(pred,res,in_notebook=self._in_ipython,title="Residues vs Predictions",
-                                          x_label="Predictions",y_label="Residues")
+                                          x_label="Predictions",y_label="Residues",show_plt=False)
 
         else:
             if show:
                 scatter(pred,res,title="Residues vs Predictions",x_label="Predictions",y_label="Residues")
             else:
-                return scatter(pred,res,title="Residues vs Predictions",x_label="Predictions",y_label="Residues", show=show)
+                return scatter(pred,res,title="Residues vs Predictions",x_label="Predictions",y_label="Residues", show=False)
                 
+
+    def quantile(self,data=None,dist=None,interact=True,show=True):
+        """Makes a quantile plot of the predictions against the desired distribution.
+
+        Args:
+            data (numpy array, optional): The user supplied data for the quantile plot.
+                If None then the model predictions will be used.
+            dist (str or numpy array): The distribution to be compared to. Either 
+                'Normal', 'Uniform', or a numpy array of the user defined distribution.
+            interact (optional, bool): True if the plot is to be interactive.
+            show (option, bool): True if plot is to be displayed.
+        """
+
+        if data = None:
+            data = sorted(self.predictions)
+        else:
+            data = sorted(data)
+
+        if dist == None or str(dist).lower() == "normal":
+            dist = sorted(np.random.normal(min(data),max(data),len(data)))
+        elif str(dist).lower() == "uniform":
+            dist = sorted(np.random.uniform(min(data),max(data),len(data)))
+        else:
+            if not type(dist) is np.ndarray:
+                raise ValueError("The user provided distribution must be a numpy array")
+            elif len(dist) != len(data):
+                raise ValueError("The user provided distribution must have the same "
+                                 "size as the input data or number of predictions.")
+            else:
+                dist = sorted(dist)
+
+        if interact:
+            fig = scatter_with_hover(pred,res,in_notebook=self._in_ipython,title="Quantile plot",
+                               x_label="Distribution",y_label="Predictions",show_plt=False)
+            plt.plot([min(dist),max(dist)],[min(data),max(data)], c="k",linestyle="--",lw=2)
+            if show:
+                plt.show()
+            else:
+                return fig
+
+        else:
+            fig = scatter(pred,res,title="Quantile plot",x_label="Distribution",y_label="Predictions", show=False)            
+            plt.plot([min(dist),max(dist)],[min(data),max(data)], c="k",linestyle="--",lw=2)
+            if show:
+                plt.show()
+            else:
+                return fig
+        
