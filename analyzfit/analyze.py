@@ -1,5 +1,5 @@
 """The main class for the analysis of a given fit."""
-import mpld3
+
 import numpy as np
 import matplotlib.pyplot as plt
 from plotting import scatter_with_hover, scatter
@@ -80,7 +80,7 @@ class analysis(object):
                 return scatter(pred,res,title="Residues vs Predictions",x_label="Predictions",y_label="Residues", show=False)
                 
 
-    def quantile(self,data=None,dist=None,interact=True,show=True):
+    def quantile(self,data=None,dist=None,interact=True,show=True,title = None):
         """Makes a quantile plot of the predictions against the desired distribution.
 
         Args:
@@ -92,13 +92,13 @@ class analysis(object):
             show (option, bool): True if plot is to be displayed.
         """
 
-        if data = None:
+        if data == None:
             data = sorted(self.predictions)
         else:
             data = sorted(data)
 
-        if dist == None or str(dist).lower() == "normal":
-            dist = sorted(np.random.normal(min(data),max(data),len(data)))
+        if dist is None or str(dist).lower() == "normal":
+            dist = sorted(np.random.normal(np.mean(data),np.std(data),len(data)))
         elif str(dist).lower() == "uniform":
             dist = sorted(np.random.uniform(min(data),max(data),len(data)))
         else:
@@ -109,21 +109,51 @@ class analysis(object):
                                  "size as the input data or number of predictions.")
             else:
                 dist = sorted(dist)
-
+        
         if interact:
-            fig = scatter_with_hover(pred,res,in_notebook=self._in_ipython,title="Quantile plot",
+            from bokeh.plotting import figure
+            from bokeh.plotting import show as show_fig
+            from bokeh.models import HoverTool
+
+            hover = HoverTool(tooltips=[("entry#", "@label"),])
+            if title is None:
+                fig = figure(tools=['box_zoom', 'reset',hover],title="Quantile plot",
+                             x_range=[min(dist),max(dist)],y_range=[min(data),max(data)])
+            else:
+                fig = figure(tools=['box_zoom', 'reset',hover],title=title,
+                             x_range=[min(dist),max(dist)],y_range=[min(data),max(data)])
+            
+            fig = scatter_with_hover(dist,data,in_notebook=self._in_ipython,
+                                    fig=fig,
                                x_label="Distribution",y_label="Predictions",show_plt=False)
-            plt.plot([min(dist),max(dist)],[min(data),max(data)], c="k",linestyle="--",lw=2)
+            fig.line([min(dist),max(dist)],[min(data),max(data)],line_dash="dashed",line_width=2)
             if show:
-                plt.show()
+                show_fig(fig)
             else:
                 return fig
 
         else:
-            fig = scatter(pred,res,title="Quantile plot",x_label="Distribution",y_label="Predictions", show=False)            
-            plt.plot([min(dist),max(dist)],[min(data),max(data)], c="k",linestyle="--",lw=2)
+            fig = scatter(dist,data,title="Quantile plot",x_label="Distribution",
+                          y_label="Predictions", show=False)            
+            plt.plot([min(dist),max(dist)],[min(data),max(data)],c="k",linestyle="--",lw=2)
+            plt.xlim([min(dist),max(dist)])
+            plt.ylim([min(data),max(data)])
             if show:
                 plt.show()
             else:
                 return fig
+
+
+    def Spread_Loc(self,data=None,dist=None,interact=True,show=True):
+        """The spread-location, or scale-location, plot of the data.
+
+        Args:
+            data (numpy array, optional): The user supplied data for the quantile plot.
+                If None then the model predictions will be used.
+            dist (str or numpy array): The distribution to be compared to. Either 
+                'Normal', 'Uniform', or a numpy array of the user defined distribution.
+            interact (optional, bool): True if the plot is to be interactive.
+            show (option, bool): True if plot is to be displayed.
+        """
+
         

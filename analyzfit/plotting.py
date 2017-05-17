@@ -88,8 +88,8 @@ def scatter(x,y,show_plt=True, x_label=None, y_label=None, title=None, **kwargs)
         fig (matplotlib.pyplot object): Returns the matplotlib object if show = False.
     """
 
-    fig, ax = plt.figure()
-    fig.scatter(x,y)
+    fig = plt.figure()
+    plt.scatter(x,y)
     if x_label != None:
         plt.xlabel(x_label)
     if y_label != None:

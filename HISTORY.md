@@ -1,5 +1,9 @@
 # Revision History for "analyzefit"
 
+## Revision 0.0.3
+-Finished implementing Quantile plots. The dashed line going through
+ them still needs some work though.
+
 ## Revision 0.0.2
 - Started implementing Quantile plots.
 
