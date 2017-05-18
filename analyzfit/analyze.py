@@ -42,13 +42,14 @@ class analysis(object):
         """Makes the residual vs fitted values plot.
         
         Args:
-            X (optional, numpy ndarray): The dataset to make the plot for
+            X (optional, numpy.ndarray): The dataset to make the plot for
                 if different than the dataset used to initialize the method.
-            y (optional, numpy array): The target values to make the plot for
+            y (optional, numpy.array): The target values to make the plot for
                 if different than the dataset used to initialize the method.
             interact (optional, bool): True if the plot is to be interactive.
             show (option, bool): True if plot is to be displayed.
         """
+        from manipulate import residual
         if X !=None and y!=None:
             pred = self.model.predict(X)
         elif X!=None or y!=None:
@@ -63,30 +64,34 @@ class analysis(object):
         if not isinstance(y, np.ndarray):
             y = np.array(y)
 
-        res = y-pred
+        res = residual(y,pred)
 
         if interact:
             if show:
-                scatter_with_hover(pred,res,in_notebook=self._in_ipython,title="Residues vs Predictions",
+                scatter_with_hover(pred,res,in_notebook=self._in_ipython,
+                                   title="Residues vs Predictions",
                                    x_label="Predictions",y_label="Residues")
             else:
-                return scatter_with_hover(pred,res,in_notebook=self._in_ipython,title="Residues vs Predictions",
-                                          x_label="Predictions",y_label="Residues",show_plt=False)
+                return scatter_with_hover(pred,res,in_notebook=self._in_ipython,
+                                          title="Residues vs Predictions",
+                                          x_label="Predictions",y_label="Residues",
+                                          show_plt=False)
 
         else:
             if show:
-                scatter(pred,res,title="Residues vs Predictions",x_label="Predictions",y_label="Residues")
+                scatter(pred,res,title="Residues vs Predictions",x_label="Predictions",
+                        y_label="Residues")
             else:
-                return scatter(pred,res,title="Residues vs Predictions",x_label="Predictions",y_label="Residues", show=False)
-                
+                return scatter(pred,res,title="Residues vs Predictions",x_label="Predictions",
+                               y_label="Residues", show=False)                
 
     def quantile(self,data=None,dist=None,interact=True,show=True,title = None):
         """Makes a quantile plot of the predictions against the desired distribution.
 
         Args:
-            data (numpy array, optional): The user supplied data for the quantile plot.
+            data (optional numpy.array, optional): The user supplied data for the quantile plot.
                 If None then the model predictions will be used.
-            dist (str or numpy array): The distribution to be compared to. Either 
+            dist (optional str or numpy.array): The distribution to be compared to. Either 
                 'Normal', 'Uniform', or a numpy array of the user defined distribution.
             interact (optional, bool): True if the plot is to be interactive.
             show (option, bool): True if plot is to be displayed.
@@ -126,7 +131,8 @@ class analysis(object):
             fig = scatter_with_hover(dist,data,in_notebook=self._in_ipython,
                                     fig=fig,
                                x_label="Distribution",y_label="Predictions",show_plt=False)
-            fig.line([min(dist),max(dist)],[min(data),max(data)],line_dash="dashed",line_width=2)
+            fig.line(dist,np.poly1d(np.polyfit(dist,data,1))(dist),
+                     line_dash="dashed",line_width=2)
             if show:
                 show_fig(fig)
             else:
@@ -135,7 +141,7 @@ class analysis(object):
         else:
             fig = scatter(dist,data,title="Quantile plot",x_label="Distribution",
                           y_label="Predictions", show=False)            
-            plt.plot([min(dist),max(dist)],[min(data),max(data)],c="k",linestyle="--",lw=2)
+            plt.plot(dist,np.poly1d(np.polyfit(dist,data,1))(dist),c="k",linestyle="--",lw=2)
             plt.xlim([min(dist),max(dist)])
             plt.ylim([min(data),max(data)])
             if show:
@@ -143,17 +149,70 @@ class analysis(object):
             else:
                 return fig
 
-
-    def Spread_Loc(self,data=None,dist=None,interact=True,show=True):
+    def Spread_Loc(self,X=None,y=None,interact=True,show=True,title=None):
         """The spread-location, or scale-location, plot of the data.
 
         Args:
-            data (numpy array, optional): The user supplied data for the quantile plot.
-                If None then the model predictions will be used.
-            dist (str or numpy array): The distribution to be compared to. Either 
-                'Normal', 'Uniform', or a numpy array of the user defined distribution.
+            X (optional, numpy ndarray): The dataset to make the plot for
+                if different than the dataset used to initialize the method.
+            y (optional, numpy array): The target values to make the plot for
+                if different than the dataset used to initialize the method.
             interact (optional, bool): True if the plot is to be interactive.
             show (option, bool): True if plot is to be displayed.
         """
 
-        
+        from manipulate import std_residuals
+
+        if X !=None and y!=None:
+            pred = self.model.predict(X)
+        elif X!=None or y!=None:
+            raise ValueError("In order to make a plot for a diferent data set "
+                             "than the set initially passed to the function "
+                             "both fitting data (X) and target data (y) must "
+                             "be provided.")
+        else:
+            pred = self.predictions
+            y = self.y
+
+        if not isinstance(y, np.ndarray):
+            y = np.array(y)
+
+        root_stres = np.sqrt(np.absolute(std_residuals(y,pred)))
+
+        if interact:
+            from bokeh.plotting import figure
+            from bokeh.plotting import show as show_fig
+            from bokeh.models import HoverTool
+
+            hover = HoverTool(tooltips=[("entry#", "@label"),])
+            if title is None:
+                fig = figure(tools=['box_zoom', 'reset',hover],title="Spread-Location plot",
+                             x_range=[min(pred)-1,max(pred)+1],
+                             y_range=[min(root_stres),max(root_stres)])
+            else:
+                fig = figure(tools=['box_zoom', 'reset',hover],title=title,
+                             x_range=[min(pred),max(pred)],
+                             y_range=[min(root_stres),max(root_stres)])
+            
+            fig = scatter_with_hover(pred,root_stres,in_notebook=self._in_ipython,
+                                     fig=fig, x_label="Fitted Values",
+                                     y_label="Sqrt(Standardized Residuals)",show_plt=False)
+            # fig.line(pred,np.poly1d(np.polyfit(pred,root_stres,1))(pred),
+            #          line_dash="dashed",line_width=2)
+            if show:
+                show_fig(fig)
+            else:
+                return fig
+
+        else:
+            fig = scatter(pred,root_stres,title="Spread-Location plot",
+                          x_label="Fitted Values",
+                          y_label="Sqrt(Standardized Residuals)", show=False)            
+            # plt.plot(dist,np.poly1d(np.polyfit(dist,data,1))(dist),c="k",linestyle="--",lw=2)
+            plt.xlim([min(pred),max(pred)])
+            plt.ylim([min(root_stres),max(root_stres)])
+            if show:
+                plt.show()
+            else:
+                return fig
+
