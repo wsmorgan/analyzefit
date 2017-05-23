@@ -1,5 +1,8 @@
 # Revision History for "analyzefit"
 
+## Revision 0.2.0
+- Implemented the Residuals vs Leverage plot.
+
 ## Revision 0.1.0
 - Fixed the line in the quantile plot so that it is a linear fit of
   the data and the distribution.

@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 def scatter_with_hover(x, y, in_notebook=True, show_plt=True,
                        fig=None, name=None, marker='o',
                        fig_width=500, fig_height=500, x_label=None,
-                       y_label=None, title=None, **kwargs):
+                       y_label=None, title=None, color="blue",**kwargs):
     """
     Plots an interactive scatter plot of `x` vs `y` using bokeh, with automatic
     tooltips showing columns from `df`. Modified from: 
@@ -47,11 +47,7 @@ def scatter_with_hover(x, y, in_notebook=True, show_plt=True,
     if in_notebook:
         output_notebook()
     # insert the correct hover identifier.
-    hover = HoverTool(
-            tooltips=[
-                ("entry#", "@label"),
-            ]
-        )
+    hover = HoverTool(tooltips=[("entry#", "@label"),])
     # If we haven't been given a Figure obj then create it with default
     # size etc.
     if fig is None:
@@ -65,7 +61,7 @@ def scatter_with_hover(x, y, in_notebook=True, show_plt=True,
 
     # Actually do the scatter plot - the easy bit
     # (other keyword arguments will be passed to this function)
-    fig.scatter('x', 'y', source=source, marker=marker)#
+    fig.scatter('x', 'y', source=source, marker=marker,color=color)#
 
     if not x_label is None:
         fig.xaxis.axis_label = x_label
@@ -76,7 +72,8 @@ def scatter_with_hover(x, y, in_notebook=True, show_plt=True,
     else:
         return(fig)
 
-def scatter(x,y,show_plt=True, x_label=None, y_label=None, title=None, **kwargs):
+def scatter(x,y,show_plt=True, x_label=None, y_label=None, label=None,
+            title=None,fig=None,**kwargs):
     """Make a standard matplotlib style scatter plot.
 
     Args:
@@ -87,14 +84,21 @@ def scatter(x,y,show_plt=True, x_label=None, y_label=None, title=None, **kwargs)
     Returns:
         fig (matplotlib.pyplot object): Returns the matplotlib object if show = False.
     """
-
-    fig = plt.figure()
-    plt.scatter(x,y)
-    if x_label != None:
+    if fig is None:
+        fig = plt.figure()
+    else:
+        fig = fig
+        
+    if not label is None:
+        plt.scatter(x,y,label=label)
+    else:
+        plt.scatter(x,y)
+        
+    if not x_label is None:
         plt.xlabel(x_label)
-    if y_label != None:
+    if not y_label is None:
         plt.ylabel(y_label)
-    if title != None:
+    if not title is None:
         plt.title(title)
     if show is True:
         plt.show()
