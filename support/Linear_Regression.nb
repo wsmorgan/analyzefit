@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     73262,       1524]
-NotebookOptionsPosition[     70741,       1431]
-NotebookOutlinePosition[     71095,       1447]
-CellTagsIndexPosition[     71052,       1444]
+NotebookDataLength[     73403,       1528]
+NotebookOptionsPosition[     70843,       1434]
+NotebookOutlinePosition[     71197,       1450]
+CellTagsIndexPosition[     71154,       1447]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -231,7 +231,7 @@ Fp0zKP7MAVHlW+44pbLxPxx6NJE=
   Ticks->{Automatic, Automatic}]], "Output",
  CellChangeTimes->{3.684157336221816*^9}]
 }, Open  ]]
-}, Open  ]],
+}, Closed]],
 
 Cell[CellGroupData[{
 
@@ -432,7 +432,7 @@ RyoTZDnOy9UXBfh/vHNzpQ==
   Ticks->{Automatic, Automatic}]], "Output",
  CellChangeTimes->{3.6841578622682467`*^9}]
 }, Open  ]]
-}, Open  ]],
+}, Closed]],
 
 Cell[CellGroupData[{
 
@@ -1041,7 +1041,7 @@ uMNfQ+xSwqZCQX7pdYeQf548c1ERSHmXjrujRH51X2X0QfwfOVkPfw==
  CellChangeTimes->{{3.6841584798631163`*^9, 3.684158505431999*^9}, 
    3.7040375689424753`*^9, 3.704038066528887*^9}]
 }, Open  ]]
-}, Open  ]],
+}, Closed]],
 
 Cell[CellGroupData[{
 
@@ -1180,7 +1180,7 @@ fuA2+W5QeRUUGiOYjdzhCgFzR+nwsFDmvXVcCv4PNfW55w==
   Ticks->{Automatic, Automatic}]], "Output",
  CellChangeTimes->{3.684159169373151*^9}]
 }, Open  ]]
-}, Open  ]],
+}, Closed]],
 
 Cell[CellGroupData[{
 
@@ -1425,8 +1425,11 @@ dHZ0LIfKKf18L/pNkLw/J8OsJsn/ACnJvfM=
      Scaled[0.05]}},
   Ticks->{Automatic, Automatic}]], "Output",
  CellChangeTimes->{3.684159293142399*^9}]
-}, Open  ]]
-}, Open  ]]
+}, Open  ]],
+
+Cell[BoxData["Riffle"], "Input",
+ CellChangeTimes->{{3.70455422888415*^9, 3.7045542311931868`*^9}}]
+}, Closed]]
 }, Open  ]]
 },
 WindowSize->{808, 688},
@@ -1460,9 +1463,9 @@ Cell[CellGroupData[{
 Cell[3277, 106, 357, 8, 46, "Input"],
 Cell[3637, 116, 6195, 115, 420, "Output"]
 }, Open  ]]
-}, Open  ]],
+}, Closed]],
 Cell[CellGroupData[{
-Cell[9881, 237, 109, 1, 64, "Section"],
+Cell[9881, 237, 109, 1, 50, "Section"],
 Cell[9993, 240, 239, 6, 30, "Text"],
 Cell[10235, 248, 230, 5, 28, "Input"],
 Cell[CellGroupData[{
@@ -1482,9 +1485,9 @@ Cell[CellGroupData[{
 Cell[11869, 308, 364, 10, 28, "Input"],
 Cell[12236, 320, 6110, 112, 244, "Output"]
 }, Open  ]]
-}, Open  ]],
+}, Closed]],
 Cell[CellGroupData[{
-Cell[18395, 438, 110, 1, 64, "Section"],
+Cell[18395, 438, 110, 1, 50, "Section"],
 Cell[CellGroupData[{
 Cell[18530, 443, 601, 13, 63, "Input"],
 Cell[19134, 458, 6284, 115, 239, "Output"]
@@ -1509,22 +1512,23 @@ Cell[CellGroupData[{
 Cell[44295, 914, 265, 6, 28, "Input"],
 Cell[44563, 922, 6400, 119, 237, "Output"]
 }, Open  ]]
-}, Open  ]],
+}, Closed]],
 Cell[CellGroupData[{
-Cell[51012, 1047, 109, 1, 64, "Section"],
+Cell[51012, 1047, 109, 1, 50, "Section"],
 Cell[CellGroupData[{
 Cell[51146, 1052, 490, 13, 28, "Input"],
 Cell[51639, 1067, 6195, 113, 224, "Output"]
 }, Open  ]]
-}, Open  ]],
+}, Closed]],
 Cell[CellGroupData[{
-Cell[57883, 1186, 108, 1, 64, "Section"],
+Cell[57883, 1186, 108, 1, 50, "Section"],
 Cell[57994, 1189, 805, 21, 46, "Input"],
 Cell[CellGroupData[{
 Cell[58824, 1214, 255, 6, 28, "Input"],
 Cell[59082, 1222, 11619, 204, 417, "Output"]
-}, Open  ]]
-}, Open  ]]
+}, Open  ]],
+Cell[70716, 1429, 99, 1, 28, "Input"]
+}, Closed]]
 }, Open  ]]
 }
 ]

@@ -1,5 +1,11 @@
 # Revision History for "analyzefit"
 
+## Revision 0.3.0
+- Implemented the full validation function which makes all 4 plots and
+  displays the accuracy metric.
+- Improved documentation of methods used.
+- Removed code duplication in several subroutines.
+
 ## Revision 0.2.0
 - Implemented the Residuals vs Leverage plot.
 
