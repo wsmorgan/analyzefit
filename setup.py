@@ -18,7 +18,7 @@ except ImportError:
 
 from os import path
 setup(name='analyzefit',
-      version='0.3.0',
+      version='0.3.1',
       description='Performs analysis of the fit of a model.',
       long_description= "" if not path.isfile("README.md") else read_md('README.md'),
       author='Wiley S Morgan',
@@ -32,6 +32,7 @@ setup(name='analyzefit',
           "matplotlib",
           "bokeh",
           "sklearn",
+          "scipy",
       ],
       packages=['analyzefit'],
       include_package_data=True,
