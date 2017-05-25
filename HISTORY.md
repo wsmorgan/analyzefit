@@ -1,5 +1,9 @@
 # Revision History for "analyzefit"
 
+## Revision 0.3.2
+- Implemented more unit tests.
+- Fixed a number of minor bugs revealed by the unit tests.
+
 ## Revision 0.3.1
 - Impletemnting unit tests.
 - Fixed setup.py so pip install works.

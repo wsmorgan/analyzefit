@@ -3,6 +3,7 @@ from bokeh.models import HoverTool
 from bokeh.io import output_notebook
 from collections import OrderedDict
 import matplotlib.pyplot as plt 
+import numpy as np
 
 def scatter_with_hover(x, y, in_notebook=True, show_plt=True,
                        fig=None, name=None, marker='o',
@@ -78,6 +79,11 @@ def scatter(x,y,show_plt=True, x_label=None, y_label=None, label=None,
         fig = fig
     else:
         ax = ax
+
+    if not isinstance(x,np.ndarray):
+        x = np.array(x)
+    if not isinstance(y,np.ndarray):
+        y = np.array(y)
 
     if ax is None:
         if not label is None:

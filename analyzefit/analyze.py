@@ -32,7 +32,7 @@ class analysis(object):
         self._run_from_ipython()
 
     def _run_from_ipython(self):
-        try:
+        try: #pragma: no cover
             __IPYTHON__
             self._in_ipython  = True
         except NameError:
@@ -49,6 +49,8 @@ class analysis(object):
                 if different than the dataset used to initialize the method.
             y (optional, numpy.array): The target values to make the plot for
                 if different than the dataset used to initialize the method.
+            pred (optional, numpy array): The predicted values to make the plot for
+                if y and X are different than the dataset used to initialize the method.
             interact (optional, bool): True if the plot is to be interactive.
             show (optional, bool): True if plot is to be displayed.
             ax (optional, matplotlib axis object): The subplot on which to 
@@ -91,13 +93,13 @@ class analysis(object):
             fig = scatter_with_hover(pred, res, in_notebook=self._in_ipython,
                                      x_label="Predictions", y_label="Residues",
                                      show_plt=False, fig=fig)
-            if show:
+            if show: #pragma: no cover
                 show_fig(fig)
             else:
                 return fig
             
         else:
-            if show:
+            if show: #pragma: no cover
                 scatter(pred, res, title=title, x_label="Predictions",
                         y_label="Residues")                    
             else:
@@ -160,7 +162,7 @@ class analysis(object):
                                      y_label="Predictions", show_plt=False)
             fig.line(dist, np.poly1d(np.polyfit(dist, data, 1))(dist),
                      line_dash="dashed", line_width=2)
-            if show:
+            if show: #pragma: no cover
                 show_fig(fig)
             else:
                 return fig
@@ -176,12 +178,15 @@ class analysis(object):
             else:
                 fig = scatter(dist, data, title=title, x_label="Distribution",
                               y_label="Predictions", show_plt=False,ax=ax)            
-                fig.plot(dist, np.poly1d(np.polyfit(dist, data,1))(dist),
-                         c="k", linestyle="--", lw=2)
+
+                poly_fit = np.polyfit(dist,data,1)
+                if len(poly_fit.shape) == 1:
+                    fig.plot(dist, np.poly1d(np.polyfit(dist, data,1))(dist),
+                             c="k", linestyle="--", lw=2)
                 fig.set_xlim([min(dist), max(dist)])
                 fig.set_ylim([min(data), max(data)])
                 
-            if show:
+            if show: #pragma: no cover
                 plt.show()
             else:
                 return fig
@@ -195,6 +200,8 @@ class analysis(object):
                 if different than the dataset used to initialize the method.
             y (optional, numpy array): The target values to make the plot for
                 if different than the dataset used to initialize the method.
+            pred (optional, numpy array): The predicted values to make the plot for
+                if y and X are different than the dataset used to initialize the method.
             interact (optional, bool): True if the plot is to be interactive.
             show (option, bool): True if plot is to be displayed.
             ax (optional, matplotlib axis object): The subplot on which to 
@@ -241,7 +248,7 @@ class analysis(object):
                                      fig=fig, x_label="Predictions",
                                      y_label=r'$\sqrt{Standardized Residuals}$', show_plt=False)
 
-            if show:
+            if show: #pragma: no cover
                 show_fig(fig)
             else:
                 return fig
@@ -262,7 +269,7 @@ class analysis(object):
                 fig.set_xlim([min(pred), max(pred)])
                 fig.set_ylim([min(root_stres), max(root_stres)])
                 
-            if show:
+            if show: #pragma: no cover
                 plt.show()
             else:
                 return fig
@@ -277,6 +284,8 @@ class analysis(object):
             y (optional, numpy array): The target values to make the plot for
                 if different than the dataset used to initialize the method.
             interact (optional, bool): True if the plot is to be interactive.
+            pred (optional, numpy array): The predicted values to make the plot for
+                if y and X are different than the dataset used to initialize the method.
             show (option, bool): True if plot is to be displayed.
             ax (optional, matplotlib axis object): The subplot on which to 
                 drow the plot.
@@ -332,7 +341,7 @@ class analysis(object):
             fig = scatter_with_hover(h_diags, stres, in_notebook=self._in_ipython,
                                      fig=fig, y_label="Standardized Residuals",
                                      show_plt=False, color="yellow", name="influence")
-            if show:
+            if show: #pragma: no cover
                 show_fig(fig)
             else:
                 return fig
@@ -348,9 +357,12 @@ class analysis(object):
                 plt.xlim([min([min(c_dist), min(h_diags)]), max([max(c_dist), max(h_diags)])])
                 plt.ylim([min(stres), max(stres)])
             else:
+                print("Hererere")
+                print(type(c_dist))
+                print(type(stres))
                 fig = scatter(c_dist, stres, title="Residual vs Leverage plot",
                               y_label="Standardized Residuals", label="Cooks Distance",
-                              show_plt=False, ax=ax)            
+                              show_plt=False, ax=ax)
                 fig = scatter(h_diags, stres, title="Residual vs Leverage plot",
                               label="Influence", show_plt=False, ax=ax)
                 fig.set_xlim([min([min(c_dist), min(h_diags)]),
@@ -358,12 +370,12 @@ class analysis(object):
                 fig.set_ylim([min(stres), max(stres)])
                 
             plt.legend()
-            if show:
+            if show: #pragma: no cover
                 plt.show()
             else:
                 return fig
 
-    def Validate(self,X=None,y=None,pred=None,metric=None):
+    def Validate(self, X=None, y=None, pred=None, metric=None, testing=False):
         """The spread-location, or scale-location, plot of the data.
 
         Args:
@@ -375,6 +387,7 @@ class analysis(object):
                 if y and X are different than the dataset used to initialize the method.
             metric (option, function or list of functions): The functions used to
                 determine how accurate the fit is.
+            testing (optional, bool): True if this is a unit test.
 
         Rasises:
             ValueError: A value error is raised if insufficient data is passed in by the user.
@@ -387,9 +400,13 @@ class analysis(object):
                              "than the set initially passed to the function "
                              "both fitting data (X) and target data (y) must "
                              "be provided.")
-        elif pred is None and y is None and X is None:
+
+        
+        if pred is None:
             pred = self.predictions
+        if y is None:
             y = self.y
+        if X is None:
             X = self.X
 
 
@@ -405,17 +422,27 @@ class analysis(object):
         ax4 = self.Leverage(y=y, X=X, pred=pred, show=False, interact=False, ax=ax4)
         
         fig.tight_layout()
-        plt.show()
+        if not testing: #pragma: no cover
+            plt.show()
 
         if metric is None:
             from sklearn.metrics import mean_squared_error
-            print("Prediction error for {1} metric: {0:.2f} ".format(mean_squared_error(y, pred),
-                                                                     "mean squared error"))
+            if not testing: #pragma: no cover
+                print("Prediction error for {1} metric: {0:.2f} ".format(mean_squared_error(y, pred),
+                                                                         "mean squared error"))
+            else:
+                return mean_squared_error(y,pred)
         else:
             if isinstance(metric,list):
-                for m in metric:
-                    print("Prediction error for {1} metric: {0:.2f} ".format(m(y, pred),
-                                                                             m.__name__))
+                if not testing: #pragma: no cover
+                    for m in metric:
+                        print("Prediction error for {1} metric: {0:.2f} ".format(m(y, pred),
+                                                                                 m.__name__))
+                else:
+                    return [m(y,pred) for m in metric]    
             else:
-                print("Prediction error for {1} metric: {0:.2f} ".format(metric(y, pred),
-                                                                         metric.__name__))
+                if not testing: #pragma: no cover
+                    print("Prediction error for {1} metric: {0:.2f} ".format(metric(y, pred),
+                                                                             metric.__name__))
+                else:
+                    return metric(y,pred)

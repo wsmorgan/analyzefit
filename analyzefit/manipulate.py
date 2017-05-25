@@ -18,7 +18,7 @@ def residual(y,pred):
         y = np.array(y)
         
     if not isinstance(pred, np.ndarray):
-        y = np.array(pred)
+        pred = np.array(pred)
 
     if len(y)!=len(pred):
         raise ValueError("Both y and pred must have the same number of elements.")
@@ -55,9 +55,12 @@ def cooks_dist(y,pred,features):
     """
 
     e = residual(y,pred)
+    e = e.reshape((len(e),))
     H = hat_diags(features)
     s_sq = np.dot(np.transpose(e),e)/(len(y)-len(features[0]))
 
+    temp = (H/(1-H)**2)*(e**2)
+    
     Dist = (H/(1-H)**2)*(e**2)/(s_sq*(len(features[0])+1))
     
     return Dist
