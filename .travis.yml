@@ -6,6 +6,8 @@ python:
 # command to install dependencies
 install:
   - pip install --upgrade .
+  - pip install --upgrade pip
+  - pip install scipy
   - pip install --upgrade -r requirements.txt
   - pip install --upgrade tox-travis
 # command to run tests
