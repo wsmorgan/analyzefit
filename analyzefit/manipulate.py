@@ -58,7 +58,7 @@ def cooks_dist(y,pred,features):
     H = hat_diags(features)
     s_sq = np.dot(np.transpose(e),e)/(len(y)-len(features[0]))
 
-    Dist = (H/(1-H)**2)*(e**2)/(s_sq*len(features[0]))
+    Dist = (H/(1-H)**2)*(e**2)/(s_sq*(len(features[0])+1))
     
     return Dist
 
@@ -66,13 +66,17 @@ def _hat_matrix(X):
     """Finds the hat matrix for of the features in X.
 
     Args:
-        X (numpy ndarray): An array containing the features of the regression model.
+        X (numpy ndarray): A matrix containing the features of the regression model.
     
     Returns:
         H (numpy ndarray): The hat matrix for the regression model.
     """
-    return np.dot(X,np.dot(np.linalg.inv(np.dot(np.transpose(X),X)),np.transpose(X)))
+
+    a = np.ones((len(X),1))
+    X = np.append(a,X,1)
     
+    return X.dot(np.linalg.inv(X.T.dot(X)).dot(X.T))
+
 def hat_diags(X):
     """Finds the diagonals of the hat matrix for the features in X.
 

@@ -19,7 +19,7 @@ class analysis(object):
     def __init__(self, X, y, model, predict=None):
         self.X = X
         self.y = y
-        if predict ==None:
+        if predict is None:
             pred = getattr(model, "predict", None)
         else:
             pred = getattr(model, predict, None)
@@ -38,11 +38,14 @@ class analysis(object):
         except NameError:
             self._in_ipython = False
     
-    def res_vs_fit(self, X=None, y=None, interact=True, show=True, ax=None, title=None):
+    def res_vs_fit(self, X=None, y=None, pred=None, interact=True, show=True, ax=None,
+                   title=None):
         """Makes the residual vs fitted values plot.
         
         Args:
             X (optional, numpy.ndarray): The dataset to make the plot for
+                if different than the dataset used to initialize the method.
+            y (optional, numpy.array): The target values to make the plot for
                 if different than the dataset used to initialize the method.
             y (optional, numpy.array): The target values to make the plot for
                 if different than the dataset used to initialize the method.
@@ -51,17 +54,21 @@ class analysis(object):
             ax (optional, matplotlib axis object): The subplot on which to 
                 drow the plot.
             title (optional, str): The title of the plot.
+
+        Rasises:
+            ValueError: A value error is raised if insufficient data is passed in by the user.
         """
         from manipulate import residual
-        if X !=None and y!=None:
+        if not X is None and not y is None and pred is None:
             pred = self.model.predict(X)
-        elif X!=None or y!=None:
+        elif not X is None and y is None:
             raise ValueError("In order to make a plot for a diferent data set "
                              "than the set initially passed to the function "
                              "both fitting data (X) and target data (y) must "
                              "be provided.")
-        else:
+        if pred is None:
             pred = self.predictions
+        if y is None:
             y = self.y
 
         if not isinstance(y, np.ndarray):
@@ -118,7 +125,7 @@ class analysis(object):
             title (optional, str): The title of the plot.
         """
 
-        if data == None:
+        if data is None:
             data = sorted(self.predictions)
         else:
             data = sorted(data)
@@ -179,7 +186,8 @@ class analysis(object):
             else:
                 return fig
 
-    def Spread_Loc(self,X=None,y=None,interact=True,show=True,title=None,ax=None):
+    def Spread_Loc(self, X=None, y=None, pred=None, interact=True, show=True,
+                   title=None, ax=None):
         """The spread-location, or scale-location, plot of the data.
 
         Args:
@@ -192,19 +200,23 @@ class analysis(object):
             ax (optional, matplotlib axis object): The subplot on which to 
                 drow the plot.
             title (optional, str): The title of the plot.
+
+        Rasises:
+            ValueError: A value error is raised if insufficient data is passed in by the user.
         """
 
         from manipulate import std_residuals
 
-        if X !=None and y!=None:
+        if not X is None and not y is None and pred is None:
             pred = self.model.predict(X)
-        elif X!=None or y!=None:
+        elif not X is None and y is None:
             raise ValueError("In order to make a plot for a diferent data set "
                              "than the set initially passed to the function "
                              "both fitting data (X) and target data (y) must "
                              "be provided.")
-        else:
+        if pred is None:
             pred = self.predictions
+        if y is None:
             y = self.y
 
         if not isinstance(y, np.ndarray):
@@ -226,7 +238,7 @@ class analysis(object):
                          y_range=[min(root_stres), max(root_stres)])
             
             fig = scatter_with_hover(pred, root_stres, in_notebook=self._in_ipython,
-                                     fig=fig, x_label="Fitted Values",
+                                     fig=fig, x_label="Predictions",
                                      y_label=r'$\sqrt{Standardized Residuals}$', show_plt=False)
 
             if show:
@@ -237,14 +249,14 @@ class analysis(object):
         else:
             if ax is None:
                 fig = scatter(pred, root_stres, title=title,
-                              x_label="Fitted Values",
+                              x_label="Predictions",
                               y_label=r'$\sqrt{Standardized Residuals}$', show_plt=False)
 
                 plt.xlim([min(pred), max(pred)])
                 plt.ylim([min(root_stres), max(root_stres)])
             else:
                 fig = scatter(pred, root_stres, title=title,
-                              x_label="Fitted Values",
+                              x_label="Predictions",
                               y_label=r'$\sqrt{Standardized Residuals}$', show_plt=False,ax=ax)
 
                 fig.set_xlim([min(pred), max(pred)])
@@ -255,7 +267,8 @@ class analysis(object):
             else:
                 return fig
 
-    def Leverage(self,X=None,y=None,interact=True,show=True,title=None, ax=None):
+    def Leverage(self, X=None, y=None, pred=None, interact=True, show=True,
+                 title=None, ax=None):
         """The spread-location, or scale-location, plot of the data.
 
         Args:
@@ -268,24 +281,31 @@ class analysis(object):
             ax (optional, matplotlib axis object): The subplot on which to 
                 drow the plot.
             title (optional, str): The title of the plot.
+
+        Rasises:
+            ValueError: A value error is raised if insufficient data is passed in by the user.
         """
 
         from manipulate import std_residuals, cooks_dist, hat_diags
 
-        if X !=None and y!=None:
+        if not X is None and not y is None and pred is None:
             pred = self.model.predict(X)
-        elif X!=None or y!=None:
+        elif not X is None and y is None:
             raise ValueError("In order to make a plot for a diferent data set "
                              "than the set initially passed to the function "
                              "both fitting data (X) and target data (y) must "
                              "be provided.")
-        else:
+        if pred is None:
             pred = self.predictions
+        if y is None:
             y = self.y
+        if X is None:
             X = self.X
 
         if not isinstance(y, np.ndarray):
             y = np.array(y)
+        if not isinstance(X,np.ndarray):
+            X = np.ndarray(X)
 
         if title is None:
             title = "Residual vs Leverage"
@@ -294,7 +314,7 @@ class analysis(object):
 
         c_dist = cooks_dist(y,pred,X)
         h_diags = hat_diags(X)
-        
+
         if interact:
             from bokeh.plotting import figure
             from bokeh.plotting import show as show_fig
@@ -355,16 +375,19 @@ class analysis(object):
                 if y and X are different than the dataset used to initialize the method.
             metric (option, function or list of functions): The functions used to
                 determine how accurate the fit is.
+
+        Rasises:
+            ValueError: A value error is raised if insufficient data is passed in by the user.
         """
 
         if not X is None and not y is None and pred is None:
             pred = self.model.predict(X)
-        elif not X is None or not y is None:
+        elif (X is None and not y is None) or (not X is None and y is None):
             raise ValueError("In order to make a plot for a diferent data set "
                              "than the set initially passed to the function "
                              "both fitting data (X) and target data (y) must "
                              "be provided.")
-        else:
+        elif pred is None and y is None and X is None:
             pred = self.predictions
             y = self.y
             X = self.X
@@ -376,10 +399,10 @@ class analysis(object):
         ax3 = fig.add_subplot(223)
         ax4 = fig.add_subplot(224)
         
-        ax1 = self.res_vs_fit(show=False, interact=False, ax=ax1)
-        ax2 = self.quantile(show=False, interact=False, ax=ax2)
-        ax3 = self.Spread_Loc(show=False, interact=False, ax=ax3)
-        ax4 = self.Leverage(show=False, interact=False, ax=ax4)
+        ax1 = self.res_vs_fit(y=y, pred=pred, show=False, interact=False, ax=ax1)
+        ax2 = self.quantile(data=pred, show=False, interact=False, ax=ax2)
+        ax3 = self.Spread_Loc(y=y, pred=pred, show=False, interact=False, ax=ax3)
+        ax4 = self.Leverage(y=y, X=X, pred=pred, show=False, interact=False, ax=ax4)
         
         fig.tight_layout()
         plt.show()

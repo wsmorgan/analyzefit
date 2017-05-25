@@ -1,5 +1,14 @@
 # Revision History for "analyzefit"
 
+## Revision 0.3.1
+- Impletemnting unit tests.
+- Fixed setup.py so pip install works.
+- Fixed bug in Hat Matrix (forgot to add column of 1's) and Cook's
+  Distance (number of features was off by one).
+- Fixed bug where the passed in user supplied data wasn't getting used
+  in the full visualization plots.
+- Removed base.py and msg.py since neither is used.
+
 ## Revision 0.3.0
 - Implemented the full validation function which makes all 4 plots and
   displays the accuracy metric.

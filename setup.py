@@ -18,7 +18,7 @@ except ImportError:
 
 from os import path
 setup(name='analyzefit',
-      version='0.0.0',
+      version='0.3.0',
       description='Performs analysis of the fit of a model.',
       long_description= "" if not path.isfile("README.md") else read_md('README.md'),
       author='Wiley S Morgan',
@@ -28,14 +28,12 @@ setup(name='analyzefit',
       setup_requires=['pytest-runner',],
       tests_require=['pytest', 'python-coveralls'],
       install_requires=[
-          "argparse",
-          "termcolor",
           "numpy",
           "matplotlib",
+          "bokeh",
+          "sklearn",
       ],
       packages=['analyzefit'],
-      scripts=[''],
-      package_data={'analyzefit': []},
       include_package_data=True,
       classifiers=[
           'Development Status :: 2 - Pre-Alpha',
