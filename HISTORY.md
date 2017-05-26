@@ -1,5 +1,13 @@
 # Revision History for "analyzefit"
 
+## Revision 0.3.3
+- Fixed bug reported in Issue #5, the number of y values and predictions must now agree.
+- Fixed bug reported in Issue #4, y values and prediction (or feature matrices) are required.
+- Fixed bug reported in Issue #3, now using psuedo-inverse on singular matrices.
+- Refactored analyzsis class and created _check_input function to reduce code duplication.
+- Updated README.md.
+- Fixed documentation in code.
+
 ## Revision 0.3.2
 - Implemented more unit tests.
 - Fixed a number of minor bugs revealed by the unit tests.

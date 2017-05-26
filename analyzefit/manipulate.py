@@ -5,11 +5,11 @@ def residual(y,pred):
     """Finds the residual of the actual vs the predicted values.
 
     Args:
-        y (numpy array): An array containing the correct values of the model.
-        pred (numpy array): An array containing the predicted values of the model.
+        y (numpy.ndarray): An array containing the correct values of the model.
+        pred (numpy.ndarray): An array containing the predicted values of the model.
 
     Returns:
-        residaul (numpy array): The residual of the data (y-pred).
+        residaul (numpy.ndarray): The residual of the data (y-pred).
 
     Raises:
         ValueError: Raises a value error if y and pred don't have the same number of elements.
@@ -29,11 +29,11 @@ def std_residuals(y,pred):
     """Finds the residual of the actual vs the predicted values.
 
     Args:
-        y (numpy array): An array containing the correct values of the model.
-        pred (numpy array): An array containing the predicted values of the model.
+        y (numpy.ndarray): An array containing the correct values of the model.
+        pred (numpy.ndarray): An array containing the predicted values of the model.
 
     Returns:
-        standardized_residaul (numpy array): The standardazied residual of the data (y-pred).
+        standardized_residaul (numpy.ndarray): The standardazied residual of the data (y-pred).
     """
 
     res = residual(y,pred)
@@ -46,12 +46,12 @@ def cooks_dist(y,pred,features):
     https://en.wikipedia.org/wiki/Cook%27s_distance
 
     Args:
-        y (numpy array): An array containing the correct values of the model.
-        pred (numpy array): An array containing the predicted values of the model.
-        features (numpy ndarray): An array containing the features of the regression model.
+        y (numpy.ndarray): An array containing the correct values of the model.
+        pred (numpy.ndarray): An array containing the predicted values of the model.
+        features (numpy.ndarray): An array containing the features of the regression model.
 
     Returns:
-        dist (numpy array): An array of the cooks distance for each point in the input data.
+        dist (numpy.ndarray): An array of the cooks distance for each point in the input data.
     """
 
     e = residual(y,pred)
@@ -69,25 +69,33 @@ def _hat_matrix(X):
     """Finds the hat matrix for of the features in X.
 
     Args:
-        X (numpy ndarray): A matrix containing the features of the regression model.
+        X (numpy.ndarray): A matrix containing the features of the regression model.
     
     Returns:
-        H (numpy ndarray): The hat matrix for the regression model.
+        H (numpy.ndarray): The hat matrix for the regression model.
     """
-
+    import sys
+    
     a = np.ones((len(X),1))
     X = np.append(a,X,1)
+
+    W = X.T.dot(X)
+
+    if np.linalg.cond(W) < 1/sys.float_info.epsilon:
+        W = np.linalg.inv(W)
+    else:
+        W = np.linalg.pinv(W)
     
-    return X.dot(np.linalg.inv(X.T.dot(X)).dot(X.T))
+    return X.dot(W.dot(X.T))
 
 def hat_diags(X):
     """Finds the diagonals of the hat matrix for the features in X.
 
     Args:
-        X (numpy ndarray): An array containing the features of the regression model.
+        X (numpy.ndarray): An array containing the features of the regression model.
 
     Returns:
-        hat_diags (numpy array): The diagonals of the hat matrix.
+        hat_diags (numpy.ndarray): The diagonals of the hat matrix.
     """
 
     hat = _hat_matrix(X)
