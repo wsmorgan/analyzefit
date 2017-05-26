@@ -76,17 +76,26 @@ class analysis(object):
         >>>> an.leverage()
     """
 
-    def __init__(self, X, y, model, predict=None):
+    def __init__(self, X, y, model, predict=None, testing=True):
         """Initial setup of model.
         Args:
             model (object): The fitting model (the model must have a predict method).
+
             X (numpy.ndarray): The X valuse to be used for plots.
+
             y (numpy.ndarray): The y values to be used for plots.
+
             predict (str): The name of the method that is equivalent to the 
                 sklearn predict function. Default = 'predict'.
+        
+            testing (bool, optional): True if unit testing.
+
         Raises:
             AttributeError: if the model object does not have a prediction attribute.
         """
+        if testing:
+            import matplotlib
+            matplotlib.use('Agg')
         if predict is None:
             pred = getattr(model, "predict", None)
         else:

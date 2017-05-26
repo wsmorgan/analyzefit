@@ -65,7 +65,7 @@ y = np.array([14.4,  24.4,  18.1,  22.5,  20.5,  15.2,  17.4,  13.6,   8.7,  18.
 slr = LinearRegression()
 slr.fit(X,y)
 
-an = analysis(X, y, slr)
+an = analysis(X, y, slr, testing=True)
 
 def test_Validate():
     """Test that Validate function works correctly"""
@@ -93,10 +93,10 @@ def test_init():
 
     from analyzefit.analyze import analysis
 
-    an2 = analysis(X, y, slr, predict = "predict")
+    an2 = analysis(X, y, slr, predict = "predict", testing=True)
 
     with pytest.raises(AttributeError):
-        an3 = analysis(X, y, slr, predict="Stuff")
+        an3 = analysis(X, y, slr, predict="Stuff", testing=True)
     
 def test_res_fit():
     """Tests that the res_vs_fit method returns an object."""
