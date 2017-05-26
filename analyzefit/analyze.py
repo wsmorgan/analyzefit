@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from plotting import scatter_with_hover, scatter
 import os
+import matplotlib
 
 class analysis(object):
     """The main class for the analysis of a given fit.
@@ -95,7 +96,7 @@ class analysis(object):
             AttributeError: if the model object does not have a prediction attribute.
         """
         if os.name != "nt":
-            import matplotlib
+            print("here init")
             matplotlib.use("Agg" if testing else "TkAgg")    
             self._testing = True
             
@@ -235,7 +236,7 @@ class analysis(object):
         from manipulate import residual
 
         if os.name != "nt":
-            import matplotlib
+            print("here 2")
             matplotlib.use("Agg" if self._testing else "TkAgg")    
             
         X, y, pred = self._check_input(X, y, pred=pred)
@@ -339,7 +340,7 @@ class analysis(object):
         """
 
         if os.name != "nt":
-            import matplotlib
+            print("here 3")
             matplotlib.use("Agg" if self._testing else "TkAgg")
             
         if data is None:
@@ -471,7 +472,7 @@ class analysis(object):
         from manipulate import std_residuals
 
         if os.name != "nt":
-            import matplotlib
+            print("here 4")
             matplotlib.use("Agg" if self._testing else "TkAgg")    
 
         X, y, pred = self._check_input(X, y, pred=pred)
@@ -592,7 +593,7 @@ class analysis(object):
         from manipulate import std_residuals, cooks_dist, hat_diags
 
         if os.name != "nt":
-            import matplotlib
+            print("here 5")
             matplotlib.use("Agg" if self._testing else "TkAgg")    
 
         X, y, pred = self._check_input(X, y, pred=pred)
@@ -712,7 +713,7 @@ class analysis(object):
         """
 
         if os.name != "nt":
-            import matplotlib
+            print("here 6")
             matplotlib.use("Agg" if self._testing else "TkAgg")    
 
         X, y, pred = self._check_input(X, y, pred=pred)
