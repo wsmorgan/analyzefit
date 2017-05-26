@@ -6,6 +6,9 @@ from plotting import scatter_with_hover, scatter
 import os
 import matplotlib
 
+if os.system != "nt":
+    matplotlib.use("Agg")
+
 class analysis(object):
     """The main class for the analysis of a given fit.
 
