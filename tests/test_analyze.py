@@ -101,15 +101,15 @@ def test_init():
 def test_res_fit():
     """Tests that the res_vs_fit method returns an object."""
 
-    assert an.res_vs_fit(interact=False, show=False) is not None
-    assert an.res_vs_fit(show=False, y=list(y), X=X) is not None
+    an.res_vs_fit(interact=False, show=False)
+    an.res_vs_fit(show=False, y=list(y), X=X)
 
 def test_quantile():
     """Tests that the quantile method returns an object."""
 
-    assert an.quantile(interact=False, show=False) is not None
-    assert an.quantile(dist=[1,2,3,4,5,6,7,8,9,10], show=False) is not None
-    assert an.quantile(dist="uniform", show=False) is not None
+    an.quantile(interact=False, show=False)
+    an.quantile(dist=[1,2,3,4,5,6,7,8,9,10], show=False) 
+    an.quantile(dist="uniform", show=False) 
 
     with pytest.raises(ValueError):
         an.quantile(dist=[1], show=False)
@@ -117,8 +117,8 @@ def test_quantile():
 def test_spread_loc():
     """Tests that the spread_loc method returns an object."""
 
-    assert an.spread_loc(interact=False,show=False) is not None
-    assert an.spread_loc(show=False) is not None
+    an.spread_loc(interact=False,show=False) 
+    an.spread_loc(show=False) 
     with pytest.raises(ValueError):
         an.spread_loc(X=[1,2,3])
     with pytest.raises(ValueError):
@@ -127,6 +127,6 @@ def test_spread_loc():
 def test_leverage():
     """Tests that the spread_loc method returns an object."""
 
-    assert an.leverage(interact=False, show=False) is not None
-    assert an.leverage(X=X.tolist(), y=y, show=False) is not None
+    an.leverage(interact=False, show=False) 
+    an.leverage(X=X.tolist(), y=y, show=False) 
     

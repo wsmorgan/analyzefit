@@ -272,13 +272,15 @@ class analysis(object):
                         y_label="Residues")                    
             else:
                 if ax is None:
-                    return scatter(pred, res, title=title,
-                                   x_label="Predictions", y_label="Residues", show_plt=False)
+                    if not self._testing: #pragma: no cover
+                        return scatter(pred, res, title=title,
+                                       x_label="Predictions", y_label="Residues", show_plt=False)
                         
-                else:
+                elif not self._testing or not ax is None:
                     return scatter(pred, res, title=title,
                                    x_label="Predictions", y_label="Residues",
                                    show_plt=False, ax=ax)
+                    
 
     def quantile(self, data=None, dist=None, interact=True, show=True, title=None, ax=None):
         """Makes a quantile plot of the predictions against the desired distribution.
@@ -406,8 +408,10 @@ class analysis(object):
                 
             if show: #pragma: no cover
                 plt.show()
-            else:
+            elif not self._testing or not ax is None:
                 return fig
+            else: 
+                plt.close()
 
     def spread_loc(self, X=None, y=None, pred=None, interact=True, show=True,
                    title=None, ax=None):
@@ -522,8 +526,10 @@ class analysis(object):
                 
             if show: #pragma: no cover
                 plt.show()
-            else:
+            elif not self._testing or not ax is None:
                 return fig
+            else:
+                plt.close()
 
     def leverage(self, X=None, y=None, pred=None, interact=True, show=True,
                  title=None, ax=None):
@@ -654,8 +660,10 @@ class analysis(object):
             plt.legend()
             if show: #pragma: no cover
                 plt.show()
-            else:
+            elif not self._testing or not ax is None:
                 return fig
+            else:
+                plt.close()
 
     def validate(self, X=None, y=None, pred=None, dist=None, metric=None, testing=False):
         """The spread-location, or scale-location, plot of the data.
@@ -735,6 +743,8 @@ class analysis(object):
         fig.tight_layout()
         if not testing: #pragma: no cover
             plt.show()
+        else:  #pragma: no cover
+            plt.close()
 
         if metric is None:
             from sklearn.metrics import mean_squared_error
