@@ -8,7 +8,7 @@ create a residuals vs fitted plot, a quantile plot, a spread location
 plot, and a leverage plot for the model provided as well as print the
 accuracy scores for any metric the user likes. For example:
 
-![alt text](support/images/validate.png)
+![alt_text](../master/support/images/validation.png)
 
 If a detailed plot is desired then the plots can also be generated
 individually using the methods res_vs_fit, quantile, spread_loc, and
@@ -16,12 +16,12 @@ leverage respectively. By default when the plots are created
 individually they are rendered in an interactive inverontment using
 the bokeh plotting package. For example:
 
-![alt text](support/images/interactive.pdf)
+![alt text](../master/support/images/interactive.pdf)
 
 This allows the user to determine which points the model is failing to
 predict.
 
-Full API Documentation available at: [github pages](https://wsmorgan.github.io/analyzefit/).
+Full API Documentation available at: [github pages](https://wsmorgan.github.io/analysefit/).
 
 ## Installing the code
 
