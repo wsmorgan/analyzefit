@@ -1,3 +1,9 @@
+addons:
+    apt:
+        packages:
+            - python-matplotlib
+	    - python-scipy
+	    - pandoc
 language: python
 cache: pip
 python:
