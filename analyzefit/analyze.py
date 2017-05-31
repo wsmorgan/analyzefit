@@ -1,13 +1,7 @@
 """The main class for the analysis of a given fit."""
-
 import numpy as np
 import matplotlib.pyplot as plt
 from plotting import scatter_with_hover, scatter
-import os
-import matplotlib
-
-if os.system != "nt":
-    matplotlib.use("Agg")
 
 class analysis(object):
     """The main class for the analysis of a given fit.
@@ -98,10 +92,6 @@ class analysis(object):
         Raises:
             AttributeError: if the model object does not have a prediction attribute.
         """
-        if os.name != "nt":
-            print("here init")
-            matplotlib.use("Agg" if testing else "TkAgg")    
-            self._testing = True
             
         if predict is None:
             pred = getattr(model, "predict", None)
@@ -238,10 +228,6 @@ class analysis(object):
 
         from manipulate import residual
 
-        if os.name != "nt":
-            print("here 2")
-            matplotlib.use("Agg" if self._testing else "TkAgg")    
-            
         X, y, pred = self._check_input(X, y, pred=pred)
         
         if title is None:
@@ -344,10 +330,6 @@ class analysis(object):
             >>>> an.quantile(data=y_test,dist=np.random.samples((len(y_test))))
         """
 
-        if os.name != "nt":
-            print("here 3")
-            matplotlib.use("Agg" if self._testing else "TkAgg")
-            
         if data is None:
             data = self.predictions
             
@@ -478,10 +460,6 @@ class analysis(object):
 
         from manipulate import std_residuals
 
-        if os.name != "nt":
-            print("here 4")
-            matplotlib.use("Agg" if self._testing else "TkAgg")    
-
         X, y, pred = self._check_input(X, y, pred=pred)
 
         if title is None:
@@ -601,10 +579,6 @@ class analysis(object):
 
         from manipulate import std_residuals, cooks_dist, hat_diags
 
-        if os.name != "nt":
-            print("here 5")
-            matplotlib.use("Agg" if self._testing else "TkAgg")    
-
         X, y, pred = self._check_input(X, y, pred=pred)
 
         if title is None:
@@ -722,10 +696,6 @@ class analysis(object):
 
             >>>> an.validate(X=X_test, y=y_test, metrics=[mean_squared_error, r2_score)
         """
-
-        if os.name != "nt":
-            print("here 6")
-            matplotlib.use("Agg" if self._testing else "TkAgg")    
 
         X, y, pred = self._check_input(X, y, pred=pred)
 

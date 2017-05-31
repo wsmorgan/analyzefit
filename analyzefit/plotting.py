@@ -1,3 +1,9 @@
+import matplotlib
+import os
+
+if os.system != "nt":
+    matplotlib.use("Agg")
+
 from bokeh.plotting import figure, ColumnDataSource, show
 from bokeh.models import HoverTool
 from bokeh.io import output_notebook
