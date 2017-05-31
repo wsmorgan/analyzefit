@@ -3,6 +3,7 @@
 ## Revision 0.3.4
 - Added additional unit testing functions for travis.
 - Changed import of plotting subroutine to import for analyzefit explicitly.
+- Changed import of manipulate subroutine to import for analyzefit explicitly.
 
 ## Revision 0.3.3
 - Fixed bug reported in Issue #5, the number of y values and predictions must now agree.

@@ -227,7 +227,7 @@ class analysis(object):
             >>>> an.res_vs_fit(pred=slr.predict(X_test),y=y_test,title="Test values")
         """
 
-        from manipulate import residual
+        from analyzefit.manipulate import residual
 
         X, y, pred = self._check_input(X, y, pred=pred)
         
@@ -459,7 +459,7 @@ class analysis(object):
             >>>> an.spread_loc(pred=slr.predict(X_test),y=y_test,title="Test values")
         """
 
-        from manipulate import std_residuals
+        from analyzefit.manipulate import std_residuals
 
         X, y, pred = self._check_input(X, y, pred=pred)
 
@@ -578,7 +578,7 @@ class analysis(object):
             >>>> an.leverage(X=X_test,pred=slr.predict(X_test),y=y_test,title="Test values")
         """
 
-        from manipulate import std_residuals, cooks_dist, hat_diags
+        from analyzefit.manipulate import std_residuals, cooks_dist, hat_diags
 
         X, y, pred = self._check_input(X, y, pred=pred)
 
