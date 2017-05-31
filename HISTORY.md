@@ -1,5 +1,8 @@
 # Revision History for "analyzefit"
 
+## Revision 0.3.4
+- Added additional unit testing functions for travis.
+
 ## Revision 0.3.3
 - Fixed bug reported in Issue #5, the number of y values and predictions must now agree.
 - Fixed bug reported in Issue #4, y values and prediction (or feature matrices) are required.

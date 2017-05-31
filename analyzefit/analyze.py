@@ -75,7 +75,7 @@ class analysis(object):
         >>>> an.leverage()
     """
 
-    def __init__(self, X, y, model, predict=None, testing=True):
+    def __init__(self, X, y, model, predict=None, testing=False):
         """Initial setup of model.
         Args:
             model (object): The fitting model (the model must have a predict method).
@@ -105,6 +105,7 @@ class analysis(object):
         
         self.X, self.y, self.predictions = self._check_input(X, y)
         self._run_from_ipython()
+        self._testing = testing
 
     def _run_from_ipython(self):
         try: #pragma: no cover
