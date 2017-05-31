@@ -1,7 +1,7 @@
 """The main class for the analysis of a given fit."""
 import numpy as np
 import matplotlib.pyplot as plt
-from plotting import scatter_with_hover, scatter
+from analyzefit.plotting import scatter_with_hover, scatter
 
 class analysis(object):
     """The main class for the analysis of a given fit.
