@@ -128,5 +128,5 @@ def test_leverage():
     """Tests that the spread_loc method returns an object."""
 
     an.leverage(interact=False, show=False) 
-    an.leverage(X=X.tolist(), y=y, show=False) 
+    an.leverage(X=X.tolist(), y=y, show=False)
     
