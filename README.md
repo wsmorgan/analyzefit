@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/wsmorgan/analyzefit.svg?branch=master)](https://travis-ci.org/wsmorgan/analyzefit)[![Coverage Status](https://coveralls.io/repos/github/wsmorgan/analyzefit/badge.svg?branch=master)](https://coveralls.io/github/wsmorgan/analyzefit?branch=master)
+[![Build Status](https://travis-ci.org/wsmorgan/analyzefit.svg?branch=master)](https://travis-ci.org/wsmorgan/analyzefit)[![codecov](https://codecov.io/gh/wsmorgan/analyzefit/branch/master/graph/badge.svg)](https://codecov.io/gh/wsmorgan/analyzefit)
 
 # analyzefit
 
