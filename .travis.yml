@@ -18,4 +18,4 @@ install:
   - pip install --upgrade tox-travis
 # command to run tests
 script: tox
-after_success: coveralls
+after_success: codecov
