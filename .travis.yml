@@ -1,3 +1,4 @@
+sudo: false
 addons:
   apt:
     packages:
@@ -12,6 +13,7 @@ python:
 # command to install dependencies
 install:
   - pip install --upgrade pip
+  - pip install --user codecov
   - pip install scipy
   - pip install --upgrade .
   - pip install --upgrade -r requirements.txt
