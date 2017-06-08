@@ -61,9 +61,9 @@ def cooks_dist(y,pred,features):
 
     temp = (H/(1-H)**2)*(e**2)
     
-    Dist = (H/(1-H)**2)*(e**2)/(s_sq*(len(features[0])+1))
+    dist = (H/(1-H)**2)*(e**2)/(s_sq*(len(features[0])+1))
     
-    return Dist
+    return dist
 
 def _hat_matrix(X):
     """Finds the hat matrix for of the features in X.

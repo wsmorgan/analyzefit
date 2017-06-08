@@ -1,9 +1,3 @@
-import matplotlib
-import os
-
-if os.system != "nt":
-    matplotlib.use("Agg")
-
 from bokeh.plotting import figure, ColumnDataSource, show
 from bokeh.models import HoverTool
 from bokeh.io import output_notebook
@@ -54,9 +48,9 @@ def scatter_with_hover(x, y, in_notebook=True, show_plt=True,
     # (other keyword arguments will be passed to this function)
     fig.scatter('x', 'y', source=source, marker=marker,color=color,name=name)
 
-    if not x_label is None:
+    if x_label is not None:
         fig.xaxis.axis_label = x_label
-    if not y_label is None:
+    if y_label is not None:
         fig.yaxis.axis_label = y_label
     if show_plt: # pragma: no cover
         show(fig)
@@ -94,28 +88,28 @@ def scatter(x,y,show_plt=True, x_label=None, y_label=None, label=None,
         y = np.array(y)
 
     if ax is None:
-        if not label is None:
+        if label is not None:
             plt.scatter(x,y,label=label)
         else:
             plt.scatter(x,y)
             
-        if not x_label is None:
+        if x_label is not None:
             plt.xlabel(x_label)
-        if not y_label is None:
+        if y_label is not None:
             plt.ylabel(y_label)
-        if not title is None:
+        if title is not None:
             plt.title(title)
     else:
-        if not label is None:
+        if label is not None:
             ax.scatter(x,y,label=label)
         else:
             ax.scatter(x,y)
 
-        if not x_label is None:
+        if x_label is not None:
             ax.set_xlabel(x_label)
-        if not y_label is None:
+        if y_label is not None:
             ax.set_ylabel(y_label)
-        if not title is None:
+        if title is not None:
             ax.set_title(title)
 
         return ax

@@ -7,7 +7,7 @@ import sys
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 
-from analyzefit.analyze import analysis
+from analyzefit.analyze import Analysis
 
 X = np.array([[  1.62864000e+00,   0.00000000e+00,   2.18900000e+01,
                  0.00000000e+00,   6.24000000e-01,   5.01900000e+00,
@@ -65,7 +65,7 @@ y = np.array([14.4,  24.4,  18.1,  22.5,  20.5,  15.2,  17.4,  13.6,   8.7,  18.
 slr = LinearRegression()
 slr.fit(X,y)
 
-an = analysis(X, y, slr, testing=True)
+an = Analysis(X, y, slr, testing=True)
 
 def test_Validate():
     """Test that Validate function works correctly"""
@@ -91,12 +91,12 @@ def test_Validate():
 def test_init():
     """Test that the class gets initialized correctly."""
 
-    from analyzefit.analyze import analysis
+    from analyzefit.analyze import Analysis
 
-    an2 = analysis(X, y, slr, predict = "predict", testing=True)
+    an2 = Analysis(X, y, slr, predict = "predict", testing=True)
 
     with pytest.raises(AttributeError):
-        an3 = analysis(X, y, slr, predict="Stuff", testing=True)
+        an3 = Analysis(X, y, slr, predict="Stuff", testing=True)
     
 def test_res_fit():
     """Tests that the res_vs_fit method returns an object."""

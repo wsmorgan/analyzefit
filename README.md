@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/wsmorgan/analyzefit.svg?branch=master)](https://travis-ci.org/wsmorgan/analyzefit)[![codecov](https://codecov.io/gh/wsmorgan/analyzefit/branch/master/graph/badge.svg)](https://codecov.io/gh/wsmorgan/analyzefit)
+[![PyPI](https://img.shields.io/pypi/v/analyzefit.svg)](https://pypi.python.org/pypi/analyzefit/)[![Build Status](https://travis-ci.org/wsmorgan/analyzefit.svg?branch=master)](https://travis-ci.org/wsmorgan/analyzefit)[![codecov](https://codecov.io/gh/wsmorgan/analyzefit/branch/master/graph/badge.svg)](https://codecov.io/gh/wsmorgan/analyzefit)[![Code Issues](https://www.quantifiedcode.com/api/v1/project/808ff747ef704059808cfe9739155a0a/badge.svg)](https://www.quantifiedcode.com/app/project/808ff747ef704059808cfe9739155a0a)
 
 # analyzefit
 

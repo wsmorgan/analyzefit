@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from analyzefit.plotting import scatter_with_hover, scatter
 
-class analysis(object):
+class Analysis(object):
     """The main class for the analysis of a given fit.
 
     Args:
@@ -135,10 +135,10 @@ class analysis(object):
               of predictions are supplied, or if the feature matrix is given but target 
               values are not, or if predictions are given but not target values.
         """
-        if not X is None and not y is None and pred is None:
+        if X is not None and y is not None and pred is None:
             pred = self.model.predict(X)
-        elif (not X is None and y is None) or ((
-                not y is None and X is None) and (not y is None and pred is None)) or (
+        elif (X is not None and y is None) or ((
+                y is not None and X is None) and (y is not None and pred is None)) or (
                     not pred is None and y is None):
             raise ValueError("In order to make a plot for a diferent data set "
                              "than the set initially passed to the function "
@@ -258,12 +258,11 @@ class analysis(object):
                 scatter(pred, res, title=title, x_label="Predictions",
                         y_label="Residues")                    
             else:
-                if ax is None:
-                    if not self._testing: #pragma: no cover
+                if ax is None and not self._testing: #pragma: no cover
                         return scatter(pred, res, title=title,
                                        x_label="Predictions", y_label="Residues", show_plt=False)
                         
-                elif not self._testing or not ax is None:
+                elif not self._testing or ax is not None:
                     return scatter(pred, res, title=title,
                                    x_label="Predictions", y_label="Residues",
                                    show_plt=False, ax=ax)
@@ -391,7 +390,7 @@ class analysis(object):
                 
             if show: #pragma: no cover
                 plt.show()
-            elif not self._testing or not ax is None:
+            elif not self._testing or ax is not None:
                 return fig
             else: 
                 plt.close()
@@ -505,7 +504,7 @@ class analysis(object):
                 
             if show: #pragma: no cover
                 plt.show()
-            elif not self._testing or not ax is None:
+            elif not self._testing or ax is not None:
                 return fig
             else:
                 plt.close()
@@ -635,7 +634,7 @@ class analysis(object):
             plt.legend()
             if show: #pragma: no cover
                 plt.show()
-            elif not self._testing or not ax is None:
+            elif not self._testing or ax is not None:
                 return fig
             else:
                 plt.close()
