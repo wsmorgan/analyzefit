@@ -139,7 +139,7 @@ class Analysis(object):
             pred = self.model.predict(X)
         elif (X is not None and y is None) or ((
                 y is not None and X is None) and (y is not None and pred is None)) or (
-                    not pred is None and y is None):
+                    pred is not None and y is None):
             raise ValueError("In order to make a plot for a diferent data set "
                              "than the set initially passed to the function "
                              "two sets of data must be passed in. Either the "
@@ -338,7 +338,7 @@ class Analysis(object):
         elif str(dist).lower() == "uniform":
             dist = np.random.uniform(min(data),max(data),len(data))
         else:
-            if not type(dist) is np.ndarray:
+            if type(dist) is not np.ndarray:
                 dist = np.array(dist)
         if len(dist) != len(data):
             raise ValueError("The user provided distribution must have the same "
