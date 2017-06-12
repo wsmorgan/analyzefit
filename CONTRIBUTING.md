@@ -234,7 +234,7 @@ Please open an issue if you have suggestions for new labels.
 #### Type of Issue and Issue State
 
 | Label name | `analyzefit` :mag_right: | Description |
-| --- | --- | --- | --- |
+| --- | --- | --- |
 | `enhancement` | [search][search-label-enhancement]  | Feature requests. |
 | `bug` | [search][search-label-bug] | Confirmed bugs or reports that are very likely to be bugs. |
 | `question` | [search][search-label-question] | Questions more than bug reports or feature requests (e.g. how do I do X). |
