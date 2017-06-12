@@ -1,5 +1,8 @@
 # Revision History for "analyzefit"
 
+## Revision 0.3.5
+- Added the Analysis class to the global import in __init__.py.
+
 ## Revision 0.3.4
 - Added additional unit testing functions for travis.
 - Changed import of plotting subroutine to import for analyzefit explicitly.
