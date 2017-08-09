@@ -186,12 +186,12 @@ class Analysis(object):
             from bokeh.plotting import show as show_fig
             from bokeh.models import HoverTool
 
-            if isinstance(min(pred), (list, np.ndarray)):
+            if isinstance(min(pred), (list, np.ndarray)): #pragma: no cover
                 xr = [min(pred)[-1], max(pred)[-1]]
             else:
                 xr = [min(pred), max(pred)]
 
-            if isinstance(min(res), (list, np.ndarray)):
+            if isinstance(min(res), (list, np.ndarray)): #pragma: no cover
                 yr = [min(res)[-1], max(res)[-1]]
             else:
                 yr = [min(res), max(res)]
@@ -286,12 +286,12 @@ class Analysis(object):
             from bokeh.plotting import show as show_fig
             from bokeh.models import HoverTool
 
-            if isinstance(min(dist), (list, np.ndarray)):
+            if isinstance(min(dist), (list, np.ndarray)): #pragma: no cover
                 xr = [min(dist)[-1], max(dist)[-1]]
             else:
                 xr = [min(dist), max(dist)]
 
-            if isinstance(min(data), (list, np.ndarray)):
+            if isinstance(min(data), (list, np.ndarray)): #pragma: no cover
                 yr = [min(data)[-1], max(data)[-1]]
             else:
                 yr = [min(data), max(data)]
@@ -311,12 +311,12 @@ class Analysis(object):
                 return fig
 
         else:
-            if isinstance(min(dist), (list, np.ndarray)):
+            if isinstance(min(dist), (list, np.ndarray)): #pragma: no cover
                 xl = [min(dist)[-1], max(dist)[-1]]
             else:
                 xl = [min(dist), max(dist)]
 
-            if isinstance(min(data), (list, np.ndarray)):
+            if isinstance(min(data), (list, np.ndarray)): #pragma: no cover
                 yl = [min(data)[-1], max(data)[-1]]
             else:
                 yl = [min(data), max(data)]
@@ -399,12 +399,12 @@ class Analysis(object):
             from bokeh.plotting import show as show_fig
             from bokeh.models import HoverTool
 
-            if isinstance(min(pred), (list, np.ndarray)):
+            if isinstance(min(pred), (list, np.ndarray)): #pragma: no cover
                 xr = [min(pred)[-1], max(pred)[-1]]
             else:
                 xr = [min(pred), max(pred)]
 
-            if isinstance(min(root_stres), (list, np.ndarray)):
+            if isinstance(min(root_stres), (list, np.ndarray)): #pragma: no cover
                 yr = [min(root_stres)[-1], max(root_stres)[-1]]
             else:
                 yr = [min(root_stres), max(root_stres)]
@@ -424,12 +424,12 @@ class Analysis(object):
                 return fig
 
         else:
-            if isinstance(min(pred), (list, np.ndarray)):
+            if isinstance(min(pred), (list, np.ndarray)): #pragma: no cover
                 xl = [min(pred)[-1], max(pred)[-1]]
             else:
                 xl = [min(pred), max(pred)]
                 
-            if isinstance(min(root_stres), (list, np.ndarray)):
+            if isinstance(min(root_stres), (list, np.ndarray)): #pragma: no cover
                 yl = [min(root_stres)[-1], max(root_stres)[-1]]
             else:
                 yl = [min(root_stres), max(root_stres)]
@@ -515,7 +515,7 @@ class Analysis(object):
             from bokeh.plotting import show as show_fig
             from bokeh.models import HoverTool
 
-            if isinstance(min(stres), (list, np.ndarray)):
+            if isinstance(min(stres), (list, np.ndarray)): #pragma: no cover
                 yr = [min(stres)[-1], max(stres)[-1]]
             else:
                 yr = [min(stres), max(stres)]
@@ -538,7 +538,7 @@ class Analysis(object):
                 return fig
 
         else:
-            if isinstance(min(stres), (list, np.ndarray)):
+            if isinstance(min(stres), (list, np.ndarray)): #pragma: no cover
                 yl = [min(stres)[-1], max(stres)[-1]]
             else:
                 yl = [min(stres), max(stres)]
@@ -633,7 +633,7 @@ class Analysis(object):
             else:
                 return mean_squared_error(y,pred)
         else:
-            if isinstance(metric,list):
+            if isinstance(metric,list): 
                 if not testing: #pragma: no cover
                     for m in metric:
                         print("Prediction error for {1} metric: {0:.2f} ".format(m(y, pred),
