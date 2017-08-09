@@ -5,17 +5,12 @@ from analyzefit.plotting import scatter_with_hover, scatter
 
 class Analysis(object):
     """The main class for the analysis of a given fit.
-
     Args:
         model (object): The fitting model (the model must have a predict method).
-
         X (numpy.ndarray): The X valuse to be used for plots.
-
         predict (str): The name of the method that is equivalent to the sklearn predict 
           function. Default = 'predict'.
-
         y (numpy.ndarray): The y values to be used for plots.
-
     Attributes:
         validate (object): Creates a residual vs fitted plot, a quatile plot, a 
           spread vs location plot, and a leverage plot and prints the accuracy
@@ -28,50 +23,29 @@ class Analysis(object):
           values in an interactive bokeh figure.
         leverage (object): Creates a plot of the cooks distance and the influence vs 
           the standardized residuals in an interactive bokeh figure.
-
     Examples:
         The following examples show how to validate the fit of sklearn's LinearRegression
         on the housing dataset. It shows how to generate each of the plots that can be used
         to verify the accuracy af a fit.
-
         >>>> import pandas as pd
-
         >>>> import numpy as np
-
         >>>> from sklearn.linear_model import LinearRegression
-
         >>>> from sklearn.cross_validation import train_test_split
-
         >>>> from sklearn.metrics import mean_squared_error, r2_score
-
         >>>> df = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/housing/housing.data', header=None,sep="\s+")
-
         >>>> df.columns = ["CRIM", "ZN", "INDUS", "CHAS", "NOX", "RM", "AGE", "DIS", "RAD", "TAX", "PTRATIO", "B", "LSTAT", "MEDV"]
-
         >>>> X = df.iloc[:,:-1].values
-
         >>>> y = df[["MEDV"]].values
-
         >>>> X_train, X_test, y_train, y_test = train_test_split(X, y, 
-
         >>>>          test_size=0.3, random_state=0)
-
         >>>> slr = LinearRegression()
-
         >>>> slr.fit(X_train,y_train)
-
         >>>> an = analyze.analysis(X_train, y_train, slr)
-
         >>>> an.validate()
-
         >>>> an.validate(X=X_test, y=y_test, metrics=[mean_squared_error, r2_score)
-
         >>>> an.res_vs_fit()
-
         >>>> an.quantile()
-
         >>>> an.spread_loc()
-
         >>>> an.leverage()
     """
 
@@ -79,16 +53,12 @@ class Analysis(object):
         """Initial setup of model.
         Args:
             model (object): The fitting model (the model must have a predict method).
-
             X (numpy.ndarray): The X valuse to be used for plots.
-
             y (numpy.ndarray): The y values to be used for plots.
-
             predict (str): The name of the method that is equivalent to the 
                 sklearn predict function. Default = 'predict'.
         
             testing (bool, optional): True if unit testing.
-
         Raises:
             AttributeError: if the model object does not have a prediction attribute.
         """
@@ -117,7 +87,6 @@ class Analysis(object):
     def _check_input(self,X,y,pred=None):
         """Checks if the input provided by the user will work for the 
             validatio and plots.
-
         Args:
             X (numpy.ndarray or None): The feature matrix.
             y (numpy.ndarray or None): The correct target values.
@@ -171,59 +140,35 @@ class Analysis(object):
         Args:
             X (numpy.ndarray, optional): The dataset to make the plot for
               if different than the dataset used to initialize the method.
-
             y (numpy.ndarray, optional): The target values to make the plot for
               if different than the dataset used to initialize the method.
-
             pred (numpy.ndarray, optional): The predicted values to make the plot for
               if y and X are different than the dataset used to initialize the method.
-
             interact (bool, optional): True if the plot is to be interactive.
-
             show (bool, optional): True if plot is to be displayed.
-
             ax (matplotlib.axes._subplots.AxesSubplot, optional): The subplot on which to 
               drow the plot.
-
             title (str, optional): The title of the plot.
-
         Returns:
             fig (matplotlib.figure.Figure or bokeh.plotting.figure): An 
               object containing the plot if show=False.
-
         Examples:
             >>>> import pandas as pd
-
             >>>> import numpy as np
-
             >>>> from sklearn.linear_model import LinearRegression
-
             >>>> from sklearn.cross_validation import train_test_split
-
             >>>> from sklearn.metrics import mean_squared_error, r2_score
-
             >>>> df = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/housing/housing.data', header=None,sep="\s+")
-
             >>>> df.columns = ["CRIM", "ZN", "INDUS", "CHAS", "NOX", "RM", "AGE", "DIS", "RAD", "TAX", "PTRATIO", "B", "LSTAT", "MEDV"]
-
             >>>> X = df.iloc[:,:-1].values
-
             >>>> y = df[["MEDV"]].values
-
             >>>> X_train, X_test, y_train, y_test = train_test_split(X, y, 
-
             >>>>          test_size=0.3, random_state=0)
-
             >>>> slr = LinearRegression()
-
             >>>> slr.fit(X_train,y_train)
-
             >>>> an = analyze.analysis(X_train, y_train, slr)
-
             >>>> an.res_vs_fit()
-
             >>>> an.res_vs_fit(X=X_test,y=y_test,title="Test values")
-
             >>>> an.res_vs_fit(pred=slr.predict(X_test),y=y_test,title="Test values")
         """
 
@@ -241,9 +186,19 @@ class Analysis(object):
             from bokeh.plotting import show as show_fig
             from bokeh.models import HoverTool
 
+            if isinstance(min(pred), (list, np.ndarray)): #pragma: no cover
+                xr = [min(pred)[-1], max(pred)[-1]]
+            else:
+                xr = [min(pred), max(pred)]
+
+            if isinstance(min(res), (list, np.ndarray)): #pragma: no cover
+                yr = [min(res)[-1], max(res)[-1]]
+            else:
+                yr = [min(res), max(res)]
+
             hover = HoverTool(tooltips=[("entry#", "@label"),])
             fig = figure(tools=['box_zoom', 'reset', hover], title=title,
-                         x_range=[min(pred), max(pred)], y_range=[min(res), max(res)])
+                         x_range=xr, y_range=yr)
 
             fig = scatter_with_hover(pred, res, in_notebook=self._in_ipython,
                                      x_label="Predictions", y_label="Residues",
@@ -270,63 +225,39 @@ class Analysis(object):
 
     def quantile(self, data=None, dist=None, interact=True, show=True, title=None, ax=None):
         """Makes a quantile plot of the predictions against the desired distribution.
-
         Args:
             data (numpy.ndarray, optional): The user supplied data for the quantile plot.
               If None then the model predictions will be used.
-
             dist (str or numpy.ndarray, optional): The distribution to be compared to. Either 
               'Normal', 'Uniform', or a numpy array of the user defined distribution.
-
             interact (bool, optional): True if the plot is to be interactive.
-
             show (bool, optional): True if plot is to be displayed.
-
             ax (matplotlib.axes._subplots.AxesSubplot, optional): The subplot on which to 
               drow the plot.
-
             title (str, optional): The title of the plot.
         
         Rasises:
             ValueError: if data and the distribution are of different lengths.
-
         Returns:
             fig (matplotlib.figure.Figure or bokeh.plotting.figure): An 
               object containing the plot if show=False.
-
         Examples:
             >>>> import pandas as pd
-
             >>>> import numpy as np
-
             >>>> from sklearn.linear_model import LinearRegression
-
             >>>> from sklearn.cross_validation import train_test_split
-
             >>>> from sklearn.metrics import mean_squared_error, r2_score
-
             >>>> df = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/housing/housing.data', header=None,sep="\s+")
-
             >>>> df.columns = ["CRIM", "ZN", "INDUS", "CHAS", "NOX", "RM", "AGE", "DIS", "RAD", "TAX", "PTRATIO", "B", "LSTAT", "MEDV"]
-
             >>>> X = df.iloc[:,:-1].values
-
             >>>> y = df[["MEDV"]].values
-
             >>>> X_train, X_test, y_train, y_test = train_test_split(X, y, 
-
             >>>>          test_size=0.3, random_state=0)
-
             >>>> slr = LinearRegression()
-
             >>>> slr.fit(X_train,y_train)
-
             >>>> an = analyze.analysis(X_train, y_train, slr)
-
             >>>> an.quantile()
-
             >>>> an.quantile(data=y_test,dist="uniform",title="Test values vs uniform distribution")
-
             >>>> an.quantile(data=y_test,dist=np.random.samples((len(y_test))))
         """
 
@@ -334,9 +265,9 @@ class Analysis(object):
             data = self.predictions
             
         if dist is None or str(dist).lower() == "normal":
-            dist = np.random.normal(np.mean(data),np.std(data),len(data))
+            dist = np.random.normal(np.mean(data),np.std(data),np.shape(data))
         elif str(dist).lower() == "uniform":
-            dist = np.random.uniform(min(data),max(data),len(data))
+            dist = np.random.uniform(min(data),max(data),np.shape(data))
         else:
             if type(dist) is not np.ndarray:
                 dist = np.array(dist)
@@ -344,8 +275,8 @@ class Analysis(object):
             raise ValueError("The user provided distribution must have the same "
                              "size as the input data or number of predictions.")
             
-        dist = sorted(dist)
-        data = sorted(data)
+        dist = np.array(sorted(dist))
+        data = np.array(sorted(data))
         
         if title is None:
             title = "Quantile"
@@ -355,14 +286,24 @@ class Analysis(object):
             from bokeh.plotting import show as show_fig
             from bokeh.models import HoverTool
 
+            if isinstance(min(dist), (list, np.ndarray)): #pragma: no cover
+                xr = [min(dist)[-1], max(dist)[-1]]
+            else:
+                xr = [min(dist), max(dist)]
+
+            if isinstance(min(data), (list, np.ndarray)): #pragma: no cover
+                yr = [min(data)[-1], max(data)[-1]]
+            else:
+                yr = [min(data), max(data)]
+
             hover = HoverTool(tooltips=[("entry#", "@label"),])
             fig = figure(tools=['box_zoom', 'reset',hover],title=title,
-                         x_range=[min(dist), max(dist)],y_range=[min(data), max(data)])
+                         x_range=xr,y_range=yr)
             
             fig = scatter_with_hover(dist, data, in_notebook=self._in_ipython,
                                     fig=fig, x_label="Distribution",
                                      y_label="Predictions", show_plt=False)
-            fig.line(dist, np.poly1d(np.polyfit(dist, data, 1))(dist),
+            fig.line(dist.flatten(), np.poly1d(np.polyfit(dist.flatten(), data.flatten(), 1))(dist.flatten()),
                      line_dash="dashed", line_width=2)
             if show: #pragma: no cover
                 show_fig(fig)
@@ -370,23 +311,34 @@ class Analysis(object):
                 return fig
 
         else:
+            if isinstance(min(dist), (list, np.ndarray)): #pragma: no cover
+                xl = [min(dist)[-1], max(dist)[-1]]
+            else:
+                xl = [min(dist), max(dist)]
+
+            if isinstance(min(data), (list, np.ndarray)): #pragma: no cover
+                yl = [min(data)[-1], max(data)[-1]]
+            else:
+                yl = [min(data), max(data)]
+                    
             if ax is None:
                 fig = scatter(dist, data, title=title, x_label="Distribution",
                               y_label="Predictions", show_plt=False)            
-                plt.plot(dist, np.poly1d(np.polyfit(dist, data,1))(dist),
+                plt.plot(dist, np.poly1d(np.polyfit(dist.flatten(), data.flatten(),1))(dist),
                          c="k", linestyle="--", lw=2)
-                plt.xlim([min(dist), max(dist)])
-                plt.ylim([min(data), max(data)])
+                plt.xlim(xl)
+                plt.ylim(yl)
             else:
                 fig = scatter(dist, data, title=title, x_label="Distribution",
                               y_label="Predictions", show_plt=False,ax=ax)            
 
-                poly_fit = np.polyfit(dist,data,1)
+                poly_fit = np.polyfit(dist.flatten(),data.flatten(),1)
                 if len(poly_fit.shape) == 1:
-                    fig.plot(dist, np.poly1d(np.polyfit(dist, data,1))(dist),
+                    fig.plot(dist, np.poly1d(np.polyfit(dist.flatten(), data.flatten(),1))(dist),
                              c="k", linestyle="--", lw=2)
-                fig.set_xlim([min(dist), max(dist)])
-                fig.set_ylim([min(data), max(data)])
+
+                fig.set_xlim(xl)
+                fig.set_ylim(yl)
                 
             if show: #pragma: no cover
                 plt.show()
@@ -398,63 +350,38 @@ class Analysis(object):
     def spread_loc(self, X=None, y=None, pred=None, interact=True, show=True,
                    title=None, ax=None):
         """The spread-location, or scale-location, plot of the data.
-
         Args:
             X (numpy.ndarray, optional): The dataset to make the plot for
               if different than the dataset used to initialize the method.
-
             y (numpy.ndarray, optional): The target values to make the plot for
               if different than the dataset used to initialize the method.
-
             pred (numpy.ndarray, optional): The predicted values to make the plot for
               if y and X are different than the dataset used to initialize the method.
-
             interact (bool, optional): True if the plot is to be interactive.
-
             show (bool, optional): True if plot is to be displayed.
-
             ax (matplotlib.axes._subplots.AxesSubplot, optional): The subplot on which to 
               drow the plot.
-
             title (str, optional): The title of the plot.
-
         Returns:
             fig (matplotlib.figure.Figure or bokeh.plotting.figure): An 
               object containing the plot if show=False.
-
         Examples:
             >>>> import pandas as pd
-
             >>>> import numpy as np
-
             >>>> from sklearn.linear_model import LinearRegression
-
             >>>> from sklearn.cross_validation import train_test_split
-
             >>>> from sklearn.metrics import mean_squared_error, r2_score
-
             >>>> df = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/housing/housing.data', header=None,sep="\s+")
-
             >>>> df.columns = ["CRIM", "ZN", "INDUS", "CHAS", "NOX", "RM", "AGE", "DIS", "RAD", "TAX", "PTRATIO", "B", "LSTAT", "MEDV"]
-
             >>>> X = df.iloc[:,:-1].values
-
             >>>> y = df[["MEDV"]].values
-
             >>>> X_train, X_test, y_train, y_test = train_test_split(X, y, 
-
             >>>>          test_size=0.3, random_state=0)
-
             >>>> slr = LinearRegression()
-
             >>>> slr.fit(X_train,y_train)
-
             >>>> an = analyze.analysis(X_train, y_train, slr)
-
             >>>> an.spread_loc()
-
             >>>> an.spread_loc(X=X_test,y=y_test,title="Test values")
-
             >>>> an.spread_loc(pred=slr.predict(X_test),y=y_test,title="Test values")
         """
 
@@ -472,10 +399,20 @@ class Analysis(object):
             from bokeh.plotting import show as show_fig
             from bokeh.models import HoverTool
 
+            if isinstance(min(pred), (list, np.ndarray)): #pragma: no cover
+                xr = [min(pred)[-1], max(pred)[-1]]
+            else:
+                xr = [min(pred), max(pred)]
+
+            if isinstance(min(root_stres), (list, np.ndarray)): #pragma: no cover
+                yr = [min(root_stres)[-1], max(root_stres)[-1]]
+            else:
+                yr = [min(root_stres), max(root_stres)]
+
             hover = HoverTool(tooltips=[("entry#", "@label"),])
             fig = figure(tools=['box_zoom', 'reset', hover], title=title,
-                         x_range=[min(pred), max(pred)],
-                         y_range=[min(root_stres), max(root_stres)])
+                         x_range=xr,
+                         y_range=yr)
             
             fig = scatter_with_hover(pred, root_stres, in_notebook=self._in_ipython,
                                      fig=fig, x_label="Predictions",
@@ -487,20 +424,30 @@ class Analysis(object):
                 return fig
 
         else:
+            if isinstance(min(pred), (list, np.ndarray)): #pragma: no cover
+                xl = [min(pred)[-1], max(pred)[-1]]
+            else:
+                xl = [min(pred), max(pred)]
+                
+            if isinstance(min(root_stres), (list, np.ndarray)): #pragma: no cover
+                yl = [min(root_stres)[-1], max(root_stres)[-1]]
+            else:
+                yl = [min(root_stres), max(root_stres)]
+                
             if ax is None:
                 fig = scatter(pred, root_stres, title=title,
                               x_label="Predictions",
                               y_label=r'$\sqrt{Standardized Residuals}$', show_plt=False)
 
-                plt.xlim([min(pred), max(pred)])
-                plt.ylim([min(root_stres), max(root_stres)])
+                plt.xlim(xl)
+                plt.ylim(yl)
             else:
                 fig = scatter(pred, root_stres, title=title,
                               x_label="Predictions",
                               y_label=r'$\sqrt{Standardized Residuals}$', show_plt=False,ax=ax)
-
-                fig.set_xlim([min(pred), max(pred)])
-                fig.set_ylim([min(root_stres), max(root_stres)])
+                    
+                fig.set_xlim(xl)
+                fig.set_ylim(yl)
                 
             if show: #pragma: no cover
                 plt.show()
@@ -512,68 +459,42 @@ class Analysis(object):
     def leverage(self, X=None, y=None, pred=None, interact=True, show=True,
                  title=None, ax=None):
         """The spread-location, or scale-location, plot of the data.
-
         Args:
             X (numpy.ndarray, optional): The dataset to make the plot for
               if different than the dataset used to initialize the method.
-
             y (numpy.ndarray, optional): The target values to make the plot for
               if different than the dataset used to initialize the method.
-
             pred (numpy.ndarray, optional): The predicted values to make the plot for
               if y and X are different than the dataset used to initialize the method.
-
             interact (bool, optional): True if the plot is to be interactive.
-
             show (bool, optional): True if plot is to be displayed.
-
             ax (matplotlib.axes._subplots.AxesSubplot, optional): The subplot on which to 
               drow the plot.
-
             title (str, optional): The title of the plot.
-
         Rasises:
             ValueError: if the number of predictions is not the same as the number of 
               target values or if the number of rows in the feature matrix is not the
               same as the number of targets.
-
         Returns:
             fig (matplotlib.figure.Figure or bokeh.plotting.figure): An 
               object containing the plot if show=False.
-
         Examples:
             >>>> import pandas as pd
-
             >>>> import numpy as np
-
             >>>> from sklearn.linear_model import LinearRegression
-
             >>>> from sklearn.cross_validation import train_test_split
-
             >>>> from sklearn.metrics import mean_squared_error, r2_score
-
             >>>> df = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/housing/housing.data', header=None,sep="\s+")
-
             >>>> df.columns = ["CRIM", "ZN", "INDUS", "CHAS", "NOX", "RM", "AGE", "DIS", "RAD", "TAX", "PTRATIO", "B", "LSTAT", "MEDV"]
-
             >>>> X = df.iloc[:,:-1].values
-
             >>>> y = df[["MEDV"]].values
-
             >>>> X_train, X_test, y_train, y_test = train_test_split(X, y, 
-
             >>>>          test_size=0.3, random_state=0)
-
             >>>> slr = LinearRegression()
-
             >>>> slr.fit(X_train,y_train)
-
             >>>> an = analyze.analysis(X_train, y_train, slr)
-
             >>>> an.leverage()
-
             >>>> an.leverage(X=X_test,y=y_test,title="Test values")
-
             >>>> an.leverage(X=X_test,pred=slr.predict(X_test),y=y_test,title="Test values")
         """
 
@@ -594,11 +515,16 @@ class Analysis(object):
             from bokeh.plotting import show as show_fig
             from bokeh.models import HoverTool
 
+            if isinstance(min(stres), (list, np.ndarray)): #pragma: no cover
+                yr = [min(stres)[-1], max(stres)[-1]]
+            else:
+                yr = [min(stres), max(stres)]
+                    
             hover = HoverTool(tooltips=[("entry#", "@label"),])
             fig = figure(tools=['box_zoom', 'reset', hover], title=title,
                          x_range=[min([min(c_dist), min(h_diags)]),
                                   max([max(c_dist), max(h_diags)])],
-                         y_range=[min(stres), max(stres)])
+                         y_range=yr)
 
             fig = scatter_with_hover(c_dist, stres, in_notebook=self._in_ipython,
                                      show_plt=False, name="cooks distance")
@@ -612,6 +538,11 @@ class Analysis(object):
                 return fig
 
         else:
+            if isinstance(min(stres), (list, np.ndarray)): #pragma: no cover
+                yl = [min(stres)[-1], max(stres)[-1]]
+            else:
+                yl = [min(stres), max(stres)]
+                    
             if ax is None:
                 fig = plt.figure()
                 fig = scatter(c_dist, stres, title="Residual vs Leverage plot",
@@ -620,16 +551,17 @@ class Analysis(object):
                 fig = scatter(h_diags, stres, title="Residual vs Leverage plot",
                               label="Influence", show_plt=False, fig=fig)
                 plt.xlim([min([min(c_dist), min(h_diags)]), max([max(c_dist), max(h_diags)])])
-                plt.ylim([min(stres), max(stres)])
+                plt.ylim(yl)
             else:
                 fig = scatter(c_dist, stres, title="Residual vs Leverage plot",
                               y_label="Standardized Residuals", label="Cooks Distance",
                               show_plt=False, ax=ax)
                 fig = scatter(h_diags, stres, title="Residual vs Leverage plot",
                               label="Influence", show_plt=False, ax=ax)
+
                 fig.set_xlim([min([min(c_dist), min(h_diags)]),
                               max([max(c_dist), max(h_diags)])])
-                fig.set_ylim([min(stres), max(stres)])
+                fig.set_ylim(yl)
                 
             plt.legend()
             if show: #pragma: no cover
@@ -641,59 +573,36 @@ class Analysis(object):
 
     def validate(self, X=None, y=None, pred=None, dist=None, metric=None, testing=False):
         """The spread-location, or scale-location, plot of the data.
-
         Args:
             X (numpy.ndarray, optional): The dataset to make the plot for
               if different than the dataset used to initialize the method.
-
             y (numpy.ndarray, optional): The target values to make the plot for
               if different than the dataset used to initialize the method.
-
             pred (numpy.ndarray, optional): The predicted values to make the plot for
               if y and X are different than the dataset used to initialize the method.
-
             dist (str or numpy.ndarray, optional): The distribution to be compared to. Either 
               'Normal', 'Uniform', or a numpy array of the user defined distribution.
-
             metric (function or list of functions, optional): The functions used to
               determine how accurate the fit is.
-
             testing (bool, optional): True if this is a unit test.
-
         Returns:
             score (list of float): The scores from each of the metrics of in testing mode.
-
         Examples:
             >>>> import pandas as pd
-
             >>>> import numpy as np
-
             >>>> from sklearn.linear_model import LinearRegression
-
             >>>> from sklearn.cross_validation import train_test_split
-
             >>>> from sklearn.metrics import mean_squared_error, r2_score
-
             >>>> df = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/housing/housing.data', header=None,sep="\s+")
-
             >>>> df.columns = ["CRIM", "ZN", "INDUS", "CHAS", "NOX", "RM", "AGE", "DIS", "RAD", "TAX", "PTRATIO", "B", "LSTAT", "MEDV"]
-
             >>>> X = df.iloc[:,:-1].values
-
             >>>> y = df[["MEDV"]].values
-
             >>>> X_train, X_test, y_train, y_test = train_test_split(X, y, 
-
             >>>>          test_size=0.3, random_state=0)
-
             >>>> slr = LinearRegression()
-
             >>>> slr.fit(X_train,y_train)
-
             >>>> an = analyze.analysis(X_train, y_train, slr)
-
             >>>> an.validate()
-
             >>>> an.validate(X=X_test, y=y_test, metrics=[mean_squared_error, r2_score)
         """
 
@@ -724,7 +633,7 @@ class Analysis(object):
             else:
                 return mean_squared_error(y,pred)
         else:
-            if isinstance(metric,list):
+            if isinstance(metric,list): 
                 if not testing: #pragma: no cover
                     for m in metric:
                         print("Prediction error for {1} metric: {0:.2f} ".format(m(y, pred),

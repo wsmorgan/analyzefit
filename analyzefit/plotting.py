@@ -82,9 +82,9 @@ def scatter(x,y,show_plt=True, x_label=None, y_label=None, label=None,
     else:
         ax = ax
 
-    if not isinstance(x,np.ndarray):
+    if not isinstance(x,np.ndarray): #pragma: no cover
         x = np.array(x)
-    if not isinstance(y,np.ndarray):
+    if not isinstance(y,np.ndarray): #pragma: no cover
         y = np.array(y)
 
     if ax is None:

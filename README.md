@@ -48,6 +48,7 @@ import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.model_selection import train_test_split
 from analyzefit import Analysis
 
 df = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/housing/housing.data', header=None,sep="\s+")
@@ -61,7 +62,7 @@ slr.fit(X_train,y_train)
 an = Analysis(X_train, y_train, slr)
 an.validate()
 
-an.validate(X=X_test, y=y_test, metrics=[mean_squared_error, r2_score)
+an.validate(X=X_test, y=y_test, metric=[mean_squared_error, r2_score])
 
 an.res_vs_fit()
 

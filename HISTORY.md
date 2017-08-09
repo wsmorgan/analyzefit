@@ -1,5 +1,12 @@
 # Revision History for "analyzefit"
 
+## Revision 0.3.6
+- (sivu1) Added an import statement and fixed a typo in the example
+  code found in the README.
+- (sivu1) Used flatten to fix 1d arrays.
+- (sivu1 and wsmorgan) Fixed the range functions when the result of the min/max functions
+  are lists by adding [-1] to the argument.
+
 ## Revision 0.3.5
 - Added the Analysis class to the global import in __init__.py.
 
