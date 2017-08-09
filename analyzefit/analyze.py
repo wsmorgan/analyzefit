@@ -243,7 +243,7 @@ class Analysis(object):
 
             hover = HoverTool(tooltips=[("entry#", "@label"),])
             fig = figure(tools=['box_zoom', 'reset', hover], title=title,
-                         x_range=[min(pred), max(pred)], y_range=[min(res), max(res)])
+                         x_range=[min(pred)[-1], max(pred)[-1]], y_range=[min(res)[-1], max(res)[-1]])
 
             fig = scatter_with_hover(pred, res, in_notebook=self._in_ipython,
                                      x_label="Predictions", y_label="Residues",
@@ -334,9 +334,9 @@ class Analysis(object):
             data = self.predictions
             
         if dist is None or str(dist).lower() == "normal":
-            dist = np.random.normal(np.mean(data),np.std(data),len(data))
+            dist = np.random.normal(np.mean(data),np.std(data),np.shape(data))
         elif str(dist).lower() == "uniform":
-            dist = np.random.uniform(min(data),max(data),len(data))
+            dist = np.random.uniform(min(data),max(data),np.shape(data))
         else:
             if type(dist) is not np.ndarray:
                 dist = np.array(dist)
@@ -344,8 +344,8 @@ class Analysis(object):
             raise ValueError("The user provided distribution must have the same "
                              "size as the input data or number of predictions.")
             
-        dist = sorted(dist)
-        data = sorted(data)
+        dist = np.array(sorted(dist))
+        data = np.array(sorted(data))
         
         if title is None:
             title = "Quantile"
@@ -357,12 +357,12 @@ class Analysis(object):
 
             hover = HoverTool(tooltips=[("entry#", "@label"),])
             fig = figure(tools=['box_zoom', 'reset',hover],title=title,
-                         x_range=[min(dist), max(dist)],y_range=[min(data), max(data)])
+                         x_range=[min(dist)[-1], max(dist)[-1]],y_range=[min(data)[-1], max(data)[-1]])
             
             fig = scatter_with_hover(dist, data, in_notebook=self._in_ipython,
                                     fig=fig, x_label="Distribution",
                                      y_label="Predictions", show_plt=False)
-            fig.line(dist, np.poly1d(np.polyfit(dist, data, 1))(dist),
+            fig.line(dist.flatten(), np.poly1d(np.polyfit(dist.flatten(), data.flatten(), 1))(dist.flatten()),
                      line_dash="dashed", line_width=2)
             if show: #pragma: no cover
                 show_fig(fig)
@@ -373,20 +373,20 @@ class Analysis(object):
             if ax is None:
                 fig = scatter(dist, data, title=title, x_label="Distribution",
                               y_label="Predictions", show_plt=False)            
-                plt.plot(dist, np.poly1d(np.polyfit(dist, data,1))(dist),
+                plt.plot(dist, np.poly1d(np.polyfit(dist.flatten(), data.flatten(),1))(dist),
                          c="k", linestyle="--", lw=2)
-                plt.xlim([min(dist), max(dist)])
-                plt.ylim([min(data), max(data)])
+                plt.xlim([min(dist)[-1], max(dist)[-1]])
+                plt.ylim([min(data)[-1], max(data)[-1]])
             else:
                 fig = scatter(dist, data, title=title, x_label="Distribution",
                               y_label="Predictions", show_plt=False,ax=ax)            
 
-                poly_fit = np.polyfit(dist,data,1)
+                poly_fit = np.polyfit(dist.flatten(),data.flatten(),1)
                 if len(poly_fit.shape) == 1:
-                    fig.plot(dist, np.poly1d(np.polyfit(dist, data,1))(dist),
+                    fig.plot(dist, np.poly1d(np.polyfit(dist.flatten(), data.flatten(),1))(dist),
                              c="k", linestyle="--", lw=2)
-                fig.set_xlim([min(dist), max(dist)])
-                fig.set_ylim([min(data), max(data)])
+                fig.set_xlim([min(dist)[-1], max(dist)[-1]])
+                fig.set_ylim([min(data)[-1], max(data)[-1]])
                 
             if show: #pragma: no cover
                 plt.show()
@@ -474,8 +474,8 @@ class Analysis(object):
 
             hover = HoverTool(tooltips=[("entry#", "@label"),])
             fig = figure(tools=['box_zoom', 'reset', hover], title=title,
-                         x_range=[min(pred), max(pred)],
-                         y_range=[min(root_stres), max(root_stres)])
+                         x_range=[min(pred)[-1], max(pred)[-1]],
+                         y_range=[min(root_stres)[-1], max(root_stres)[-1]])
             
             fig = scatter_with_hover(pred, root_stres, in_notebook=self._in_ipython,
                                      fig=fig, x_label="Predictions",
@@ -492,15 +492,15 @@ class Analysis(object):
                               x_label="Predictions",
                               y_label=r'$\sqrt{Standardized Residuals}$', show_plt=False)
 
-                plt.xlim([min(pred), max(pred)])
-                plt.ylim([min(root_stres), max(root_stres)])
+                plt.xlim([min(pred)[-1], max(pred)[-1]])
+                plt.ylim([min(root_stres)[-1], max(root_stres)[-1]])
             else:
                 fig = scatter(pred, root_stres, title=title,
                               x_label="Predictions",
                               y_label=r'$\sqrt{Standardized Residuals}$', show_plt=False,ax=ax)
 
-                fig.set_xlim([min(pred), max(pred)])
-                fig.set_ylim([min(root_stres), max(root_stres)])
+                fig.set_xlim([min(pred)[-1], max(pred)[-1]])
+                fig.set_ylim([min(root_stres)[-1], max(root_stres)[-1]])
                 
             if show: #pragma: no cover
                 plt.show()
@@ -598,7 +598,7 @@ class Analysis(object):
             fig = figure(tools=['box_zoom', 'reset', hover], title=title,
                          x_range=[min([min(c_dist), min(h_diags)]),
                                   max([max(c_dist), max(h_diags)])],
-                         y_range=[min(stres), max(stres)])
+                         y_range=[min(stres)[-1], max(stres)[-1]])
 
             fig = scatter_with_hover(c_dist, stres, in_notebook=self._in_ipython,
                                      show_plt=False, name="cooks distance")
@@ -620,7 +620,7 @@ class Analysis(object):
                 fig = scatter(h_diags, stres, title="Residual vs Leverage plot",
                               label="Influence", show_plt=False, fig=fig)
                 plt.xlim([min([min(c_dist), min(h_diags)]), max([max(c_dist), max(h_diags)])])
-                plt.ylim([min(stres), max(stres)])
+                plt.ylim([min(stres)[-1], max(stres)[-1]])
             else:
                 fig = scatter(c_dist, stres, title="Residual vs Leverage plot",
                               y_label="Standardized Residuals", label="Cooks Distance",
@@ -629,7 +629,7 @@ class Analysis(object):
                               label="Influence", show_plt=False, ax=ax)
                 fig.set_xlim([min([min(c_dist), min(h_diags)]),
                               max([max(c_dist), max(h_diags)])])
-                fig.set_ylim([min(stres), max(stres)])
+                fig.set_ylim([min(stres)[-1], max(stres)[-1]])
                 
             plt.legend()
             if show: #pragma: no cover
