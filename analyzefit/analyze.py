@@ -214,8 +214,8 @@ class Analysis(object):
                         y_label="Residues")                    
             else:
                 if ax is None and not self._testing: #pragma: no cover
-                        return scatter(pred, res, title=title,
-                                       x_label="Predictions", y_label="Residues", show_plt=False)
+                    return scatter(pred, res, title=title,
+                                   x_label="Predictions", y_label="Residues", show_plt=False)
                         
                 elif not self._testing or ax is not None:
                     return scatter(pred, res, title=title,
