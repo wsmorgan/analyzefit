@@ -1,14 +1,13 @@
 from bokeh.plotting import figure, ColumnDataSource, show
 from bokeh.models import HoverTool
 from bokeh.io import output_notebook
-from collections import OrderedDict
 import matplotlib.pyplot as plt 
 import numpy as np
 
 def scatter_with_hover(x, y, in_notebook=True, show_plt=True,
                        fig=None, name=None, marker='o',
                        fig_width=500, fig_height=500, x_label=None,
-                       y_label=None, title=None, color="blue",**kwargs):
+                       y_label=None, title=None, color="blue"):
     """
     Plots an interactive scatter plot of `x` vs `y` using bokeh, with automatic
     tooltips showing columns from `df`. Modified from: 

@@ -59,8 +59,6 @@ def cooks_dist(y,pred,features):
     H = hat_diags(features)
     s_sq = np.dot(np.transpose(e),e)/(len(y)-len(features[0]))
 
-    temp = (H/(1-H)**2)*(e**2)
-    
     dist = (H/(1-H)**2)*(e**2)/(s_sq*(len(features[0])+1))
     
     return dist

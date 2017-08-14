@@ -79,7 +79,7 @@ class Analysis(object):
 
     def _run_from_ipython(self):
         try: #pragma: no cover
-            __IPYTHON__
+            __IPYTHON__ #noqa
             self._in_ipython  = True
         except NameError:
             self._in_ipython = False

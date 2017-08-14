@@ -1,5 +1,11 @@
 # Revision History for "analyzefit"
 
+## Revision 0.3.7
+- Added some comments to have landscape ignore some incorrectly
+  identified isues.
+- Removed unused code from manipulate.py.
+- Removed unused import from plotting.py.
+
 ## Revision 0.3.6
 - (sivu1) Added an import statement and fixed a typo in the example
   code found in the README.
