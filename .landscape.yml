@@ -2,6 +2,6 @@ ignore-paths:
   - analyzefit/__init__.py
 pylint:
   disable:
-    - Too many arguments
-    - Too many local variables
-    - Too many branches
+    - too-many-arguments
+    - too-many-local-variables
+    - too-many-branches

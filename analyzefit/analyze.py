@@ -79,7 +79,7 @@ class Analysis(object):
 
     def _run_from_ipython(self):
         try: #pragma: no cover
-            __IPYTHON__ #noqa
+            __IPYTHON__ #pylint:disable=pointless-statement
             self._in_ipython  = True
         except NameError:
             self._in_ipython = False
@@ -223,7 +223,7 @@ class Analysis(object):
                                    show_plt=False, ax=ax)
                     
 
-    def quantile(self, data=None, dist=None, interact=True, show=True, title=None, ax=None):
+    def quantile(self, data=None, dist=None, interact=True, show=True, title=None, ax=None): #noqa
         """Makes a quantile plot of the predictions against the desired distribution.
         Args:
             data (numpy.ndarray, optional): The user supplied data for the quantile plot.
