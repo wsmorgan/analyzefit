@@ -261,6 +261,8 @@ class Analysis(object):
             >>>> an.quantile(data=y_test,dist=np.random.samples((len(y_test))))
         """
 
+        from analyzefit.manipulate import get_range
+        
         if data is None:
             data = self.predictions
             
@@ -271,6 +273,7 @@ class Analysis(object):
         else:
             if type(dist) is not np.ndarray:
                 dist = np.array(dist)
+                
         if len(dist) != len(data):
             raise ValueError("The user provided distribution must have the same "
                              "size as the input data or number of predictions.")
@@ -286,15 +289,9 @@ class Analysis(object):
             from bokeh.plotting import show as show_fig
             from bokeh.models import HoverTool
 
-            if isinstance(min(dist), (list, np.ndarray)): #pragma: no cover
-                xr = [min(dist)[-1], max(dist)[-1]]
-            else:
-                xr = [min(dist), max(dist)]
 
-            if isinstance(min(data), (list, np.ndarray)): #pragma: no cover
-                yr = [min(data)[-1], max(data)[-1]]
-            else:
-                yr = [min(data), max(data)]
+            xr = get_range(dist)
+            yr = get_range(data)
 
             hover = HoverTool(tooltips=[("entry#", "@label"),])
             fig = figure(tools=['box_zoom', 'reset',hover],title=title,
@@ -311,15 +308,8 @@ class Analysis(object):
                 return fig
 
         else:
-            if isinstance(min(dist), (list, np.ndarray)): #pragma: no cover
-                xl = [min(dist)[-1], max(dist)[-1]]
-            else:
-                xl = [min(dist), max(dist)]
-
-            if isinstance(min(data), (list, np.ndarray)): #pragma: no cover
-                yl = [min(data)[-1], max(data)[-1]]
-            else:
-                yl = [min(data), max(data)]
+            xl = get_range(dist)
+            yl = get_range(data)
                     
             if ax is None:
                 fig = scatter(dist, data, title=title, x_label="Distribution",
