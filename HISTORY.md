@@ -1,5 +1,9 @@
 # Revision History for "analyzefit"
 
+## Revision 0.3.8
+- Added get_range function to manipulate.py to reduce code complexity
+  in analyze.py.
+
 ## Revision 0.3.7
 - Added some comments to have landscape ignore some incorrectly
   identified isues.

@@ -101,3 +101,20 @@ def hat_diags(X):
     hat_diags = np.diagonal(hat)
 
     return hat_diags
+
+def get_range(x):
+    """Finds the range of the values contained in the list x.
+
+    Args:
+        x (list): The list of values the range is wanted for.
+
+    Returns:
+        xr (list): The smallest and largest value in x.
+    """
+
+    if isinstance(min(x), (list, np.ndarray)): #pragma: no cover
+        xr = [min(x)[-1], max(x)[-1]]
+    else:
+        xr = [min(x), max(x)]
+
+    return xr    
