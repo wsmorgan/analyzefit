@@ -261,7 +261,7 @@ class Analysis(object):
             >>>> an.quantile(data=y_test,dist=np.random.samples((len(y_test))))
         """
 
-        from manipulate import get_range
+        from analyzefit.manipulate import get_range
         
         if data is None:
             data = self.predictions
